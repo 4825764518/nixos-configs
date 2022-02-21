@@ -1,11 +1,19 @@
 {
-  description = "A very basic flake";
+  inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nix-darwin.url = "github:lnl7/nix-darwin/master";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+  };
 
-  outputs = { self, nixpkgs }: {
-
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-
-    defaultPackage.x86_64-linux = self.packages.x86_64-linux.hello;
-
+  outputs = { self, nixpkgs, nix-darwin }: {
+    nixosConfigurations = {
+      # TODO
+    };
+    darwinConfigurations = {
+      interloper = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [ ./hosts/interloper/darwin-configuration.nix ];
+      };
+    };
   };
 }
