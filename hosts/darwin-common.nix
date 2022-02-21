@@ -19,4 +19,12 @@
     QuitMenuItem = true;
     _FXShowPosixPathInTitle = true;
   };
+
+  system.defaults.trackpad = { Clicking = false; };
+
+  # Disable inverted scrolling
+  system.defaults.NSGlobalDomain."com.apple.swipescrolldirection" = false;
+  system.defaults.NSGlobalDomain."com.apple.trackpad.enableSecondaryClick" =
+    true;
+  system.defaults.NSGlobalDomain."com.apple.trackpad.scaling" = "1";
 }
