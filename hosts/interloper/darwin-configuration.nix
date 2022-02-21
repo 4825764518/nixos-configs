@@ -3,6 +3,7 @@
 {
   imports = [
     ../../apps/common.nix
+    ../../apps/homebrew.nix
     ../../apps/nix.nix
   ];
 
