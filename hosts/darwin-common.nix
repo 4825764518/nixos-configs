@@ -13,4 +13,10 @@
     show-process-indicators = true;
     showhidden = true;
   };
+
+  system.defaults.finder = {
+    AppleShowAllExtensions = true;
+    QuitMenuItem = true;
+    _FXShowPosixPathInTitle = true;
+  };
 }
