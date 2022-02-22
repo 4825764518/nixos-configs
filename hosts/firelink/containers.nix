@@ -51,6 +51,20 @@
         "/var/run/docker.sock:/var/run/docker.sock"
       ];
     };
+    vaultwarden = {
+      autoStart = true;
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.vaultwarden.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.vaultwarden.rule=Host(`bitwarden.lan.kenzi.dev`)"
+      ];
+      image = "vaultwarden/server:1.24.0";
+      volumes = [ "/opt/vaultwarden:/data" ];
+    };
     whoami = {
       autoStart = true;
       extraOptions = [
