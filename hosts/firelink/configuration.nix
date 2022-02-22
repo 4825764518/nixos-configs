@@ -10,6 +10,7 @@
     ../../apps/common.nix
     ../../apps/nix.nix
     ./hardware-configuration.nix
+    ./containers.nix
   ];
 
   networking.hostName = "firelink";
