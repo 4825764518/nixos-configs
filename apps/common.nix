@@ -1,3 +1,3 @@
 { config, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ file git htop wget ];
+  environment.systemPackages = with pkgs; [ file git htop sops wget ];
 }
