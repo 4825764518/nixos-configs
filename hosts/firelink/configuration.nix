@@ -15,11 +15,18 @@
   networking.hostName = "firelink";
   time.timeZone = "America/New_York";
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
-  networking.interfaces.enp6s18.useDHCP = true;
+  networking = {
+    useDHCP = false;
+    interfaces.enp6s18 = {
+      ipv4.addresses = [{
+        address = "10.10.30.11";
+        prefixLength = 24;
+      }];
+    };
+
+    defaultGateway = "10.10.30.1";
+    nameservers = [ "10.10.30.1" ];
+  };
 
   i18n.defaultLocale = "en_US.UTF-8";
   console = {
