@@ -7,7 +7,10 @@
 
   outputs = { self, nixpkgs, nix-darwin }: {
     nixosConfigurations = {
-      # TODO
+      firelink = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./hosts/firelink/configuration.nix ];
+      };
     };
     darwinConfigurations = {
       interloper = nix-darwin.lib.darwinSystem {
