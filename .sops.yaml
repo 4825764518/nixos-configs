@@ -1,0 +1,9 @@
+keys:
+  - &interloper age1nhsjw9ju9ezqpvre23exxjmhhzhz688t682dy2s28z7avsevr4dqhjpqfd
+  - &server_firelink age1zgx808cx5wtq50uk9xqwn2sse5muvg0snat5ywact0zcrvzr758q7xq7lk
+creation_rules:
+  - path_regex: secrets/firelink/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *interloper
+      - *server_firelink
