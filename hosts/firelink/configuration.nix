@@ -24,6 +24,12 @@
         prefixLength = 24;
       }];
     };
+    interfaces.enp6s19 = {
+      ipv4.addresses = [{
+        address = "10.10.31.11";
+        prefixLength = 24;
+      }];
+    };
 
     defaultGateway = "10.10.30.1";
     nameservers = [ "10.10.30.1" ];
