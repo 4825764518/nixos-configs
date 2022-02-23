@@ -2,38 +2,28 @@
 
 let
   traefikStaticConfigPath = builtins.toFile "traefik.yml" (builtins.toJSON {
-    entryPoints = {
-      websecure = {
-        address = ":443";
-        http = {
-          tls = {
-            certResolver = "le";
-            domains = [{
-              main = "lan.kenzi.dev";
-              sans = [ "*.lan.kenzi.dev" ];
-            }];
-          };
-        };
+    entryPoints.websecure = {
+      address = ":443";
+      http.tls = {
+        certResolver = "le";
+        domains = [{
+          main = "lan.kenzi.dev";
+          sans = [ "*.lan.kenzi.dev" ];
+        }];
       };
     };
-    certificatesResolvers = {
-      le = {
-        acme = {
-          email = "autismal69@protonmail.com";
-          storage = "acme.json";
-          dnsChallenge = {
-            provider = "cloudflare";
-            delayBeforeCheck = 15;
-          };
-        };
+    certificatesResolvers.le.acme = {
+      email = "autismal69@protonmail.com";
+      storage = "acme.json";
+      dnsChallenge = {
+        provider = "cloudflare";
+        delayBeforeCheck = 15;
       };
     };
-    providers = { docker = { exposedByDefault = false; }; };
+    providers.docker = { exposedByDefault = false; };
   });
 in {
-  virtualisation.docker = { enable = true; };
-
-  virtualisation.oci-containers.backend = "docker";
+  virtualisation.docker.enable = true;
 
   # https://www.breakds.org/post/declarative-docker-in-nixos/
   systemd.services.init-traefik-network = {
@@ -42,18 +32,17 @@ in {
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig.Type = "oneshot";
-    script =
-      let dockercli = "${config.virtualisation.docker.package}/bin/docker";
-      in ''
-        # Put a true at the end to prevent getting non-zero return code, which will
-        # crash the whole service.
-        check=$(${dockercli} network ls | grep "traefik-rproxy" || true)
-        if [ -z "$check" ]; then
-          ${dockercli} network create traefik-rproxy
-        else
-          echo "traefik-rproxy already exists in docker"
-        fi
-      '';
+    path = [ config.virtualisation.docker.package ];
+    script = ''
+      # Put a true at the end to prevent getting non-zero return code, which will
+      # crash the whole service.
+      check=$(docker network ls | grep "traefik-rproxy" || true)
+      if [ -z "$check" ]; then
+        docker network create traefik-rproxy
+      else
+        echo "traefik-rproxy already exists in docker"
+      fi
+    '';
   };
 
   sops.secrets.traefik-environment = {
