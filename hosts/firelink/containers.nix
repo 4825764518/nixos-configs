@@ -33,6 +33,26 @@
     sopsFile = ../../secrets/firelink/traefik.yaml;
   };
   virtualisation.oci-containers.containers = {
+    jellyfin = {
+      autoStart = true;
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.jellyfin.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.jellyfin.rule=Host(`jellyfin.lan.kenzi.dev`)"
+      ];
+      image = "jellyfin/jellyfin:10.7.7";
+      ports = [ "10.10.30.11:8096:8096" ];
+      volumes = [
+        "/opt/jellyfin/config:/config"
+        "/opt/jellyfin/cache:/cache"
+        "/hangar/torrent-downloads/media/tv:/media/tv:ro"
+        "/hangar/torrent-downloads/media/movies:/media/movies:ro"
+      ];
+    };
     traefik = {
       autoStart = true;
       environmentFiles = [ "${config.sops.secrets.traefik-environment.path}" ];
