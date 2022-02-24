@@ -29,12 +29,16 @@
   sops.secrets.firelink-traefik-config = {
     sopsFile = ../../secrets/firelink/containers.yaml;
   };
-  sops.secrets.traefik-environment = {
+  sops.secrets.firelink-traefik-environment = {
     sopsFile = ../../secrets/firelink/traefik.yaml;
   };
   virtualisation.oci-containers.containers = {
     jackett = {
       autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -74,7 +78,7 @@
     };
     traefik = {
       autoStart = true;
-      environmentFiles = [ "${config.sops.secrets.traefik-environment.path}" ];
+      environmentFiles = [ "${config.sops.secrets.firelink-traefik-environment.path}" ];
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -114,6 +118,10 @@
     };
     radarr = {
       autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -134,6 +142,10 @@
     };
     sonarr = {
       autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
