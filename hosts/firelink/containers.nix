@@ -62,6 +62,10 @@ in {
   virtualisation.oci-containers.containers = {
     jackett = {
       autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -141,6 +145,10 @@ in {
     };
     radarr = {
       autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -161,6 +169,10 @@ in {
     };
     sonarr = {
       autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
