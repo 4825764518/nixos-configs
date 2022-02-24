@@ -33,6 +33,25 @@
     sopsFile = ../../secrets/firelink/traefik.yaml;
   };
   virtualisation.oci-containers.containers = {
+    jackett = {
+      autoStart = true;
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.jackett.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.jackett.rule=Host(`jackett.lan.kenzi.dev`)"
+        "--label"
+        "traefik.http.services.jackett.loadbalancer.server.port=9117"
+      ];
+      image = "linuxserver/jackett:0.20.629";
+      volumes = [
+        "/opt/jackett:/config"
+        "/hangar/torrent-downloads/blackhole:/downloads"
+      ];
+    };
     jellyfin = {
       autoStart = true;
       extraOptions = [
@@ -91,6 +110,46 @@
       volumes = [
         "/opt/qbittorrent:/config"
         "/hangar/torrent-downloads:/hangar/torrent-downloads"
+      ];
+    };
+    radarr = {
+      autoStart = true;
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.radarr.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.radarr.rule=Host(`radarr.lan.kenzi.dev`)"
+        "--label"
+        "traefik.http.services.radarr.loadbalancer.server.port=7878"
+      ];
+      image = "linuxserver/radarr:4.0.4";
+      volumes = [
+        "/opt/radarr:/config"
+        "/hangar:/hangar"
+        "/hangar/torrent-downloads/movies:/downloads/staging"
+      ];
+    };
+    sonarr = {
+      autoStart = true;
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.sonarr.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.sonarr.rule=Host(`sonarr.lan.kenzi.dev`)"
+        "--label"
+        "traefik.http.services.sonarr.loadbalancer.server.port=8989"
+      ];
+      image = "linuxserver/sonarr:develop-alpine-3.0.6.1470-ls18";
+      volumes = [
+        "/opt/sonarr:/config"
+        "/hangar:/hangar"
+        "/hangar/torrent-downloads/tv-sonarr:/downloads/staging"
       ];
     };
     vaultwarden = {
