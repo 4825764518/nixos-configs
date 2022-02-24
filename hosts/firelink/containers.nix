@@ -56,7 +56,7 @@ in {
       '';
   };
 
-  sops.secrets.traefik-environment = {
+  sops.secrets.firelink-traefik-environment = {
     sopsFile = ../../secrets/firelink/traefik.yaml;
   };
   virtualisation.oci-containers.containers = {
@@ -105,7 +105,7 @@ in {
     };
     traefik = {
       autoStart = true;
-      environmentFiles = [ "${config.sops.secrets.traefik-environment.path}" ];
+      environmentFiles = [ "${config.sops.secrets.firelink-traefik-environment.path}" ];
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
