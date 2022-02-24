@@ -9,6 +9,7 @@
       "geekbench"
       "ghidra"
       "gimp"
+      "jellyfin-media-player"
       "jetbrains-toolbox"
       "keepassxc"
       "kitty"
