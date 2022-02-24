@@ -16,6 +16,9 @@
   networking.hostName = "firelink";
   time.timeZone = "America/New_York";
 
+  sops.secrets.firelink-wireguard-privkey = {
+    sopsFile = ../../secrets/firelink/wireguard.yaml;
+  };
   networking = {
     useDHCP = false;
     interfaces.enp6s18 = {
@@ -29,6 +32,20 @@
         address = "10.10.31.11";
         prefixLength = 24;
       }];
+    };
+    wireguard.interfaces = {
+      wg-internal = {
+        ips = [ "10.10.10.4/24" ];
+        listenPort = 51820;
+        privateKeyFile =
+          "${config.sops.secrets.firelink-wireguard-privkey.path}";
+        peers = [{
+          publicKey = "Mo1wqAe5SNixIikRSlVY9DpT5Nz19mZenWym3voa0TM=";
+          allowedIPs = [ "10.10.10.0/24" "10.10.40.0/24" ];
+          endpoint = "192.99.14.203:51820";
+          persistentKeepalive = 25;
+        }];
+      };
     };
 
     defaultGateway = "10.10.30.1";
