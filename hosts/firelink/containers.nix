@@ -98,6 +98,28 @@ in {
         "/var/run/docker.sock:/var/run/docker.sock"
       ];
     };
+    qbittorrent = {
+      autoStart = true;
+      environment = { WEBUI_PORT = "8082"; };
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.qbittorrent.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.lan.kenzi.dev`)"
+        "--label"
+        "traefik.http.services.qbittorrent.loadbalancer.server.port=8082"
+      ];
+      image =
+        "ghcr.io/linuxserver/qbittorrent:14.3.8.99202108291924-7418-9392ce436ubuntu20.04.1-ls152";
+      ports = [ "10.10.30.11:40744:40744" ];
+      volumes = [
+        "/opt/qbittorrent:/config"
+        "/hangar/torrent-downloads:/hangar/torrent-downloads"
+      ];
+    };
     vaultwarden = {
       autoStart = true;
       extraOptions = [
