@@ -21,7 +21,6 @@
       "steam"
       "temurin"
       "visual-studio-code"
-      "vorta"
     ];
     cleanup = "zap";
     enable = true;
