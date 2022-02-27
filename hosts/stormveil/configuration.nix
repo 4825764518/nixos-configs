@@ -65,7 +65,7 @@
 
     users.kenzie = {
       createHome = true;
-      extraGroups = [ "wheel" ];
+      extraGroups = [ "docker" "wheel" ];
       home = "/home/kenzie";
       isNormalUser = true;
       openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
@@ -83,6 +83,9 @@
   services.openssh.enable = true;
 
   networking.firewall.enable = false;
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.enableNvidia = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
