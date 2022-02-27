@@ -1,5 +1,6 @@
 keys:
   - &interloper age1nhsjw9ju9ezqpvre23exxjmhhzhz688t682dy2s28z7avsevr4dqhjpqfd
+  - &stormveil age1pen3t2pauvtvpnce7k8pee68mhwyk8qawrsfktje88aq3zjrm4rq0kns6m
   - &server_firelink age1zgx808cx5wtq50uk9xqwn2sse5muvg0snat5ywact0zcrvzr758q7xq7lk
   - &server_stormveil age1w0wpr80ta2ujm9rcd6tphjtvcn6sx25pnrky7q0lzyu4l7yfd4ps4wsk7e
 creation_rules:
@@ -7,10 +8,12 @@ creation_rules:
     key_groups:
     - age:
       - *interloper
+      - *stormveil
       - *server_firelink
   - path_regex: secrets/stormveil/[^/]+\.yaml$
     key_groups:
     - age:
       - *interloper
+      - *stormveil
       - *server_stormveil
     
