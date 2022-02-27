@@ -7,19 +7,26 @@
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, sops-nix }: {
-    nixosConfigurations = {
-      firelink = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules =
-          [ ./hosts/firelink/configuration.nix sops-nix.nixosModules.sops ];
+  outputs = { self, nixpkgs, nix-darwin, sops-nix }:
+    let pkgsNonfree = import nixpkgs { config.allowUnfree = true; };
+    in {
+      nixosConfigurations = {
+        firelink = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules =
+            [ ./hosts/firelink/configuration.nix sops-nix.nixosModules.sops ];
+        };
+        stormveil = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [ ./hosts/stormveil/configuration.nix ];
+          pkgs = pkgsNonfree;
+        };
+      };
+      darwinConfigurations = {
+        interloper = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [ ./hosts/interloper/darwin-configuration.nix ];
+        };
       };
     };
-    darwinConfigurations = {
-      interloper = nix-darwin.lib.darwinSystem {
-        system = "aarch64-darwin";
-        modules = [ ./hosts/interloper/darwin-configuration.nix ];
-      };
-    };
-  };
 }
