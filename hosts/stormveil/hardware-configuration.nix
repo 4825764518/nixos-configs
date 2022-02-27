@@ -35,6 +35,11 @@
     fsType = "vfat";
   };
 
+  fileSystems."/hangar" = {
+    device = "10.10.31.10:/hangar";
+    fsType = "nfs";
+  };
+
   swapDevices =
     [{ device = "/dev/disk/by-uuid/05a4d4bc-b839-47fe-8e75-b17202a5b43d"; }];
 
