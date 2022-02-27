@@ -15,11 +15,21 @@
   networking = {
     useDHCP = false;
 
-    interfaces.enp34s0 = {
-      ipv4.addresses = [{
-        address = "10.10.30.20";
-        prefixLength = 24;
-      }];
+    bridges.br0 = { interfaces = [ "enp40s0" "enp40s0d1" ]; };
+
+    interfaces = {
+      enp34s0 = {
+        ipv4.addresses = [{
+          address = "10.10.30.20";
+          prefixLength = 24;
+        }];
+      };
+      br0 = {
+        ipv4.addresses = [{
+          address = "10.10.31.20";
+          prefixLength = 24;
+        }];
+      };
     };
     defaultGateway = "10.10.30.1";
     nameservers = [ "10.10.30.1" ];
