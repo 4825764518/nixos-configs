@@ -27,7 +27,7 @@
         };
         stormveil = nixos.lib.nixosSystem {
           system = "x86_64-linux";
-          modules = [ ./hosts/stormveil/configuration.nix ];
+          modules = [ ./hosts/stormveil/configuration.nix sops-nix.nixosModules.sops ];
           pkgs = pkgsNonfree-linux-x64;
         };
       };
