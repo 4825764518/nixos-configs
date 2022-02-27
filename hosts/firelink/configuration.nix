@@ -20,12 +20,14 @@
   networking = {
     useDHCP = false;
     interfaces.enp6s18 = {
+      useDHCP = false;
       ipv4.addresses = [{
         address = "10.10.30.11";
         prefixLength = 24;
       }];
     };
     interfaces.enp6s19 = {
+      useDHCP = false;
       ipv4.addresses = [{
         address = "10.10.31.11";
         prefixLength = 24;

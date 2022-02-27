@@ -17,12 +17,14 @@
 
     interfaces = {
       enp34s0 = {
+        useDHCP = false;
         ipv4.addresses = [{
           address = "10.10.30.20";
           prefixLength = 24;
         }];
       };
       br0 = {
+        useDHCP = false;
         ipv4.addresses = [{
           address = "10.10.31.20";
           prefixLength = 24;
