@@ -79,6 +79,12 @@
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];
+  services.xserver.deviceSection = ''
+    Option "Coolbits" "28"
+  '';
+
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
+  hardware.nvidia.modesetting.enable = true;
 
   services.openssh.enable = true;
 
