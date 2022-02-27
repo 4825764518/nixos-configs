@@ -3,7 +3,7 @@
 {
   imports = [
     ./linux-common.nix
-    ../apps/gdm.nix
+    ../apps/lightdm.nix
     ../apps/linux-desktop/development.nix
     ../apps/linux-desktop/games.nix
     ../apps/linux-desktop/media.nix
