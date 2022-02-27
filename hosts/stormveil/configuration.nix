@@ -1,15 +1,15 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ../linux-desktop-common.nix
-    ./hardware-configuration.nix
-  ];
+  imports = [ ../linux-desktop-common.nix ./hardware-configuration.nix ];
 
   networking.hostName = "stormveil";
 
   time.timeZone = "America/New_York";
 
+  sops.secrets.stormveil-wireguard-privkey = {
+    sopsFile = ../../secrets/stormveil/wireguard.yaml;
+  };
   networking = {
     useDHCP = false;
 
@@ -29,6 +29,21 @@
         }];
       };
     };
+    wireguard.interfaces = {
+      wg-internal = {
+        ips = [ "10.10.10.7/24" ];
+        listenPort = 51820;
+        privateKeyFile =
+          "${config.sops.secrets.stormveil-wireguard-privkey.path}";
+        peers = [{
+          publicKey = "Mo1wqAe5SNixIikRSlVY9DpT5Nz19mZenWym3voa0TM=";
+          allowedIPs = [ "10.10.10.0/24" "10.10.40.0/24" ];
+          endpoint = "192.99.14.203:51820";
+          persistentKeepalive = 25;
+        }];
+      };
+    };
+
     defaultGateway = "10.10.30.1";
     nameservers = [ "10.10.30.1" ];
   };
