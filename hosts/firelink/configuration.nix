@@ -62,10 +62,7 @@
     isNormalUser = true;
     home = "/home/shrinekeeper";
     extraGroups = [ "wheel" ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGtIAtNjZUYfvqwQ6tXHEeo+ZkJen+RgwEJZ8f4v0KRU" # interloper
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBKsNunQrSeyz0kTlTe/Fnh0GQtlAWpLqX+JVPRkrHpA" # kiln
-    ];
+    openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
   };
 
   services.openssh = {

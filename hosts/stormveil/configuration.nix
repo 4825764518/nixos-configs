@@ -41,6 +41,28 @@
     keyMap = "us";
   };
 
+  sops.secrets.stormveil-kenzie-password = {
+    sopsFile = ../../secrets/stormveil/passwords.yaml;
+    neededForUsers = true;
+  };
+  users = {
+    mutableUsers = false;
+
+    users.kenzie = {
+      createHome = true;
+      extraGroups = [ "wheel" ];
+      home = "/home/kenzie";
+      isNormalUser = true;
+      openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
+      passwordFile = "${config.sops.secrets.stormveil-kenzie-password.path}";
+    };
+
+    users.root = {
+      openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
+      password = null;
+    };
+  };
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -54,7 +76,6 @@
   hardware.pulseaudio.enable = true;
 
   services.openssh.enable = true;
-  services.openssh.permitRootLogin = "yes";
 
   networking.firewall.enable = false;
 
