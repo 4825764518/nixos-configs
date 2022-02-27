@@ -2,10 +2,7 @@
 
 {
   imports = [
-    ../linux-common.nix
-    ../../apps/common.nix
-    ../../apps/gdm.nix
-    ../../apps/nix.nix
+    ../linux-desktop-common.nix
     ./hardware-configuration.nix
   ];
 
@@ -64,17 +61,7 @@
     };
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
 
   services.openssh.enable = true;
 

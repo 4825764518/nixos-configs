@@ -7,8 +7,6 @@
 {
   imports = [ # Include the results of the hardware scan.
     ../linux-common.nix
-    ../../apps/common.nix
-    ../../apps/nix.nix
     ./hardware-configuration.nix
     ./containers.nix
   ];
