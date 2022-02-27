@@ -4,6 +4,7 @@
   imports = [
     ../linux-common.nix
     ../../apps/common.nix
+    ../../apps/gdm.nix
     ../../apps/nix.nix
     ./hardware-configuration.nix
   ];
