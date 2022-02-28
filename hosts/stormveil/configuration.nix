@@ -75,6 +75,7 @@
       isNormalUser = true;
       openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
       passwordFile = "${config.sops.secrets.stormveil-kenzie-password.path}";
+      shell = pkgs.zsh;
     };
 
     users.root = {
