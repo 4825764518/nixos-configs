@@ -1,3 +1,3 @@
 { config, pkgs, ... }: {
-  environment.systemPackages = with pkgs; [ gwe ];
+  environment.systemPackages = with pkgs; [ gwe libreoffice-fresh ];
 }
