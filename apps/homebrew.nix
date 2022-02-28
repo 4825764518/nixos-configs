@@ -12,7 +12,6 @@
       "jellyfin-media-player"
       "jetbrains-toolbox"
       "keepassxc"
-      "kitty"
       "libreoffice"
       "postman"
       "raycast"
