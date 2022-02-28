@@ -105,7 +105,8 @@ in {
     };
     traefik = {
       autoStart = true;
-      environmentFiles = [ "${config.sops.secrets.firelink-traefik-environment.path}" ];
+      environmentFiles =
+        [ "${config.sops.secrets.firelink-traefik-environment.path}" ];
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -142,6 +143,13 @@ in {
         "/opt/qbittorrent:/config"
         "/hangar/torrent-downloads:/hangar/torrent-downloads"
       ];
+    };
+    qbtsync = {
+      autoStart = true;
+      extraOptions = [ "--network=traefik-rproxy" ];
+      image = "qbtsync:latest";
+      volumes =
+        [ "/opt/qbtsync/config.toml:/config.toml" "/opt/qbtsync/logs:/logs" ];
     };
     radarr = {
       autoStart = true;
