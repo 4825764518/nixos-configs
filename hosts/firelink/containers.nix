@@ -172,6 +172,30 @@
         "/hangar/torrent-downloads/tv-sonarr:/downloads/staging"
       ];
     };
+    syncthing = {
+      autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.syncthing.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.syncthing.rule=Host(`syncthing.lan.kenzi.dev`)"
+        "--label"
+        "traefik.http.services.syncthing.loadbalancer.server.port=8384"
+      ];
+      image = "ghcr.io/linuxserver/syncthing:v1.19.0-ls68";
+      ports = [ "22000:22000" ];
+      volumes = [
+        "/opt/syncthing/config:/config"
+        "/hangar/torrent-downloads/staging:/staging"
+      ];
+    };
     vaultwarden = {
       autoStart = true;
       extraOptions = [
