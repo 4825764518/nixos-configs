@@ -8,5 +8,6 @@
     ./programs/zsh.nix
   ];
 
+  config.fonts.fontconfig.enable = true;
   config.programs.home-manager.enable = true;
 }

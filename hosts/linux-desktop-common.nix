@@ -11,8 +11,9 @@
     ../apps/linux-desktop/misc.nix
     ../apps/linux-desktop/passwords.nix
     ../apps/linux-desktop/social.nix
-
   ];
+
+  fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
