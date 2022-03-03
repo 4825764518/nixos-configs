@@ -16,9 +16,20 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "v4l2loopback" "zenpower" ];
 
-  environment.systemPackages = with pkgs; [ lm_sensors ];
+  environment.systemPackages = with pkgs; [
+    lm_sensors
+    gnomeExtensions.appindicator
+    gnomeExtensions.logo-menu
+    gnomeExtensions.noannoyance
+    gnomeExtensions.pixel-saver
+    gnomeExtensions.vitals
+  ];
 
   fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
+
+  programs.dconf.enable = true;
+
+  services.udev.packages = with pkgs; [ gnome3.gnome-settings-daemon ];
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
