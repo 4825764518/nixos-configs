@@ -16,6 +16,8 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "v4l2loopback" "zenpower" ];
 
+  environment.systemPackages = with pkgs; [ lm_sensors ];
+
   fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
 
   # Enable the X11 windowing system.
