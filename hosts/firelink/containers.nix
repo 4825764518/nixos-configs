@@ -124,7 +124,11 @@ in {
     };
     qbittorrent = {
       autoStart = true;
-      environment = { WEBUI_PORT = "8082"; };
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+        WEBUI_PORT = "8082";
+      };
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
