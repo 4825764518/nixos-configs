@@ -29,6 +29,7 @@
 
   programs.dconf.enable = true;
 
+  services.flatpak.enable = true;
   services.udev.packages = with pkgs; [ gnome3.gnome-settings-daemon ];
 
   # Enable the X11 windowing system.
