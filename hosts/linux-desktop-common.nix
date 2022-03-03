@@ -13,6 +13,8 @@
     ../apps/linux-desktop/social.nix
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
 
   # Enable the X11 windowing system.
