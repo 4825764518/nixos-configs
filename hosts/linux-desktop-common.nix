@@ -14,6 +14,7 @@
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelModules = [ "v4l2loopback" "zenpower" ];
 
   fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
 
