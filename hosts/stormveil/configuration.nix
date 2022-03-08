@@ -119,6 +119,11 @@
       path = "/mnt/mx500-raid/kopia-repo";
       passwordFile = "/mnt/mx500-raid/kopia-passwords/test-password";
     }];
+    b2Repositories = [{
+      bucket = "foo";
+      applicationKeyId = "bar";
+      applicationKeyFile = "/mnt/mx500-raid/kopia-passwords/test-password";
+    }];
   };
 
   # This value determines the NixOS release from which the default
