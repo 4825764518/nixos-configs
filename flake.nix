@@ -32,12 +32,6 @@
             ./hosts/stormveil/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.verbose = true;
-              home-manager.users.kenzie = import ./home/home.nix;
-            }
           ];
           pkgs = pkgsNonfree-linux-x64;
         };
@@ -47,12 +41,11 @@
           system = "aarch64-darwin";
           modules = [
             ./hosts/interloper/darwin-configuration.nix
-            home-manager.darwinModules.home-manager
+            sops-nix.darwinModules.sops
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.kenzie = import ./home/home.nix;
+              sops.age.sshKeyPaths = [ "/var/root/.sops-keys/id_ed25519" ];
             }
+            home-manager.darwinModules.home-manager
           ];
           pkgs = pkgsNonfree-darwin-aarch64;
         };

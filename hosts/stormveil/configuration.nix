@@ -84,6 +84,19 @@
     };
   };
 
+  sops.secrets.common-gpg-keyring = {
+    mode = "0040";
+    group = "wheel";
+    sopsFile = ../../secrets/common/common.yaml;
+  };
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    verbose = true;
+
+    users.kenzie = import ../../home/home.nix;
+  };
+
   services.xserver.videoDrivers = [ "nvidia" ];
   services.xserver.deviceSection = ''
     Option "Coolbits" "28"

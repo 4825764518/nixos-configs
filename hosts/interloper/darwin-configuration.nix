@@ -13,6 +13,19 @@
 
   users.users.kenzie = { home = "/Users/kenzie"; };
 
+  sops.secrets.common-gpg-keyring = {
+    mode = "0040";
+    group = "staff";
+    sopsFile = ../../secrets/common/common.yaml;
+  };
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    verbose = true;
+
+    users.kenzie = import ../../home/home.nix;
+  };
+
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 4;
