@@ -5,7 +5,7 @@
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix.url = "github:4825764518/sops-nix/darwin";
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
