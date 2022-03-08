@@ -3,6 +3,7 @@
 {
   imports = [
     ./programs/darwin.nix
+    ./programs/git.nix
     ./programs/gpg.nix
     ./programs/gtk.nix
     ./programs/kitty.nix
