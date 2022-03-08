@@ -16,6 +16,7 @@
       core = { editor = "code --wait"; };
       diff = { tool = "vscode"; };
       difftool.vscode = { cmd = "code --wait --diff $LOCAL $REMOTE"; };
+      init = { defaultBranch = "main"; };
       merge = { tool = "vscode"; };
       mergetool.vscode = { cmd = "code --wait $MERGED"; };
     };
