@@ -30,6 +30,7 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/stormveil/configuration.nix
+            ./modules/kopia.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
           ];
