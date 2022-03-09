@@ -38,5 +38,14 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
+
+  services.pipewire = {
+    enable = true;
+    jack.enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+
+    alsa.support32Bit = true;
+  };
 }
