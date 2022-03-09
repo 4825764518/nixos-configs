@@ -74,6 +74,27 @@
 
   networking.firewall.enable = false;
 
+  sops.secrets.firelink-restic-password = {
+    sopsFile = ../../secrets/firelink/passwords.yaml;
+  };
+  services.restic.backups = {
+    lanBackup = {
+      initialize = true;
+      passwordFile = "${config.sops.secrets.firelink-restic-password.path}";
+      paths = [ "/home" "/opt" "/root" "/var" ];
+      extraBackupArgs = [ "--exclude=/opt/containerd" ];
+      pruneOpts = [
+        "--keep-daily 30"
+        "--keep-weekly 12"
+        "--keep-monthly 36"
+        "--keep-yearly 100"
+      ];
+      repository =
+        "sftp:restic@10.10.31.10:/hangar/restic-backups/firelink-backups";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
