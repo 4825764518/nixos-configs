@@ -15,6 +15,7 @@
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "v4l2loopback" "zenpower" ];
+  boot.blacklistedKernelModules = [ "snd_hda_codec_hdmi" ];
 
   environment.systemPackages = with pkgs; [
     lm_sensors
