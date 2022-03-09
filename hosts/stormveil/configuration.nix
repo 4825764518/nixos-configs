@@ -113,6 +113,27 @@
   virtualisation.docker.enableNvidia = true;
   systemd.enableUnifiedCgroupHierarchy = false;
 
+  sops.secrets.stormveil-restic-password = {
+    sopsFile = ../../secrets/stormveil/passwords.yaml;
+    neededForUsers = true;
+  };
+  services.restic.backups = {
+    lanBackup = {
+      initialize = true;
+      passwordFile = "${config.sops.secrets.stormveil-restic-password.path}";
+      paths = [ "/home" "/mnt/qlc-nvme" "/mnt/mx500-raid" ];
+      pruneOpts = [
+        "--keep-daily 30"
+        "--keep-weekly 12"
+        "--keep-monthly 36"
+        "--keep-yearly 100"
+      ];
+      repository =
+        "sftp:restic@10.10.31.10:/hangar/restic-backups/stormveil-backups";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
