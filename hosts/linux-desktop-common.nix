@@ -13,6 +13,7 @@
     ../apps/linux-desktop/social.nix
   ];
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernelModules = [ "v4l2loopback" "zenpower" ];
   boot.blacklistedKernelModules = [ "snd_hda_codec_hdmi" ];
