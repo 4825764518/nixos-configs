@@ -77,6 +77,12 @@
   sops.secrets.firelink-restic-password = {
     sopsFile = ../../secrets/firelink/passwords.yaml;
   };
+  sops.secrets.firelink-restic-b2-environment = {
+    sopsFile = ../../secrets/firelink/passwords.yaml;
+  };
+  sops.secrets.firelink-restic-b2-password = {
+    sopsFile = ../../secrets/firelink/passwords.yaml;
+  };
   services.restic.backups = {
     lanBackup = {
       initialize = true;
@@ -91,6 +97,21 @@
       ];
       repository =
         "sftp:restic@10.10.31.10:/hangar/restic-backups/firelink-backups";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+    b2Backup = {
+      environmentFile =
+        "${config.sops.secrets.firelink-restic-b2-environment.path}";
+      initialize = true;
+      passwordFile = "${config.sops.secrets.firelink-restic-b2-password.path}";
+      paths = [ "/home" "/root" "/opt/vaultwarden" ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 100"
+      ];
+      repository = "b2:restic-firelink:/";
       timerConfig = { OnCalendar = "daily"; };
     };
   };
