@@ -115,7 +115,12 @@
 
   sops.secrets.stormveil-restic-password = {
     sopsFile = ../../secrets/stormveil/passwords.yaml;
-    neededForUsers = true;
+  };
+  sops.secrets.stormveil-restic-b2-environment = {
+    sopsFile = ../../secrets/stormveil/passwords.yaml;
+  };
+  sops.secrets.stormveil-restic-b2-password = {
+    sopsFile = ../../secrets/stormveil/passwords.yaml;
   };
   services.restic.backups = {
     lanBackup = {
@@ -130,6 +135,25 @@
       ];
       repository =
         "sftp:restic@10.10.31.10:/hangar/restic-backups/stormveil-backups";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+    b2Backup = {
+      environmentFile =
+        "${config.sops.secrets.stormveil-restic-b2-environment.path}";
+      initialize = true;
+      passwordFile = "${config.sops.secrets.stormveil-restic-b2-password.path}";
+      paths = [ "/home" "/root" ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 100"
+      ];
+      extraBackupArgs = [
+        "--exclude=/home/*/.local/share/containers"
+        "--exclude=/home/*/.local/share/Steam"
+      ];
+      repository = "b2:restic-stormveil:/";
       timerConfig = { OnCalendar = "daily"; };
     };
   };
