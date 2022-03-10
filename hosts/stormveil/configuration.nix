@@ -150,9 +150,13 @@
         "--keep-yearly 100"
       ];
       extraBackupArgs = [
-        "--exclude=/home/*/.local/share/containers"
-        "--exclude=/home/*/.local/share/Steam"
+        ''--exclude="/home/kenzie/.local/share/containers"''
+        ''--exclude="/home/kenzie/.local/share/Steam"''
+        ''--exclude="/home/kenzie/.config/Element/Cache"''
+        ''--exclude="/home/kenzie/.var/app/com.valvesoftware.Steam"''
+        ''--exclude="/home/kenzie/.cache"''
       ];
+      extraOptions = [ "verbose=1" ];
       repository = "b2:restic-stormveil:/";
       timerConfig = { OnCalendar = "daily"; };
     };
