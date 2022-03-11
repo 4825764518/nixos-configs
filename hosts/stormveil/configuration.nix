@@ -104,7 +104,7 @@
     Option "Coolbits" "28"
   '';
 
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.modesetting.enable = true;
 
   services.openssh.enable = true;
