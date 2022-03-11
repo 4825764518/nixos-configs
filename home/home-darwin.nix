@@ -7,6 +7,8 @@
     ./modules/shell.nix
     ./modules/terminal.nix
 
+    ./modules/apps/shitcoins.nix
+
     # TODO
     ./modules/git.nix
     ./modules/gpg.nix
@@ -18,5 +20,7 @@
     profiles.home.enable = true;
     profiles.home.shell.enable = true;
     profiles.home.terminal.enable = true;
+
+    profiles.home.applications.shitcoins.enable = true;
   };
 }
