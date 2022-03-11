@@ -26,6 +26,15 @@
           modules =
             [ ./hosts/firelink/configuration.nix sops-nix.nixosModules.sops ];
         };
+        staging = nixos.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/staging/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+          ];
+          pkgs = pkgsNonfree-linux-x64;
+        };
         stormveil = nixos.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
