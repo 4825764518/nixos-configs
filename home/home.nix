@@ -1,15 +1,10 @@
 { pkgs, lib, config, ... }:
 
-{
-  imports = [
-    ./programs/darwin.nix
-    ./programs/git.nix
-    ./programs/gpg.nix
-    ./programs/gtk.nix
-    ./programs/kitty.nix
-    ./programs/zsh.nix
-  ];
+with lib;
 
-  config.fonts.fontconfig.enable = true;
-  config.programs.home-manager.enable = true;
+let cfg = config.profiles.home;
+in {
+  options.profiles.home = { enable = mkEnableOption "home"; };
+
+  config = mkIf cfg.enable { programs.home-manager.enable = true; };
 }

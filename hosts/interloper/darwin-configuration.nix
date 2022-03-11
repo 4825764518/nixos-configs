@@ -23,7 +23,7 @@
     useUserPackages = true;
     verbose = true;
 
-    users.kenzie = import ../../home/home.nix;
+    users.kenzie = import ../../home/home-darwin.nix;
   };
 
   # Used for backwards compatibility, please read the changelog before changing.

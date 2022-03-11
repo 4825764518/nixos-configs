@@ -58,11 +58,28 @@
     keyMap = "us";
   };
 
-  users.users.shrinekeeper = {
-    isNormalUser = true;
-    home = "/home/shrinekeeper";
-    extraGroups = [ "wheel" ];
-    openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
+  users = {
+    users.shrinekeeper = {
+      isNormalUser = true;
+      home = "/home/shrinekeeper";
+      extraGroups = [ "wheel" ];
+      openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
+      shell = pkgs.zsh;
+    };
+
+    users.root = {
+      password = null;
+      shell = pkgs.zsh;
+    };
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    verbose = true;
+
+    users.shrinekeeper = import ../../home/home-linux-server.nix;
+    users.root = import ../../home/home-linux-server.nix;
   };
 
   services.openssh = {
