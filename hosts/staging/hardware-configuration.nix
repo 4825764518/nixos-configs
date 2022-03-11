@@ -4,28 +4,34 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/profiles/qemu-guest.nix")
-    ];
+  imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-  boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
+  boot.initrd.availableKernelModules = [
+    "uhci_hcd"
+    "ehci_pci"
+    "ahci"
+    "virtio_pci"
+    "virtio_scsi"
+    "sd_mod"
+    "sr_mod"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/e5e9bd5a-dabe-477c-bdbd-414effca07d2";
-      fsType = "xfs";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/e5e9bd5a-dabe-477c-bdbd-414effca07d2";
+    fsType = "xfs";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/C9EB-CCED";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/C9EB-CCED";
+    fsType = "vfat";
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/83c26660-eb2a-4ade-b308-9d07dd8dd765"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/83c26660-eb2a-4ade-b308-9d07dd8dd765"; }];
 
-  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode =
+    lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

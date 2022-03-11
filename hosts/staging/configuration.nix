@@ -55,6 +55,7 @@
     users.root = {
       openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
       password = null;
+      shell = pkgs.zsh;
     };
   };
 
@@ -68,7 +69,8 @@
     useUserPackages = true;
     verbose = true;
 
-    users.kenzie = import ../../home/home.nix;
+    users.kenzie = import ../../home/home-linux-desktop.nix;
+    users.root = import ../../home/home-linux-server.nix;
   };
 
   services.openssh.enable = true;
