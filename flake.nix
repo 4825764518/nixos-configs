@@ -23,8 +23,11 @@
       nixosConfigurations = {
         firelink = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          modules =
-            [ ./hosts/firelink/configuration.nix sops-nix.nixosModules.sops ];
+          modules = [
+            ./hosts/firelink/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+          ];
         };
         staging = nixos.lib.nixosSystem {
           system = "x86_64-linux";
@@ -51,9 +54,7 @@
           modules = [
             ./hosts/interloper/darwin-configuration.nix
             sops-nix.darwinModules.sops
-            {
-              sops.age.sshKeyPaths = [ "/var/root/.sops-keys/id_ed25519" ];
-            }
+            { sops.age.sshKeyPaths = [ "/var/root/.sops-keys/id_ed25519" ]; }
             home-manager.darwinModules.home-manager
           ];
           pkgs = pkgsNonfree-darwin-aarch64;
