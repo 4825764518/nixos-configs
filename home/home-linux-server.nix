@@ -8,5 +8,7 @@ with lib;
   config = {
     profiles.home.enable = true;
     profiles.home.shell.enable = true;
+
+    targets.genericLinux.enable = true;
   };
 }

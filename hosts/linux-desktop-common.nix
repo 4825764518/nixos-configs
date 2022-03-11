@@ -6,11 +6,6 @@
     ../apps/lightdm.nix
     ../apps/linux-desktop/development.nix
     ../apps/linux-desktop/games.nix
-    ../apps/linux-desktop/media.nix
-    ../apps/linux-desktop/mining.nix
-    ../apps/linux-desktop/misc.nix
-    ../apps/linux-desktop/passwords.nix
-    ../apps/linux-desktop/social.nix
   ];
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
