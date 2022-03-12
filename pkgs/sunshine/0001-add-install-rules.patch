@@ -1,0 +1,28 @@
+From 47738479a1aa7451a584436f502ac11590026e50 Mon Sep 17 00:00:00 2001
+From: 4825764518 <100122841+4825764518@users.noreply.github.com>
+Date: Sat, 12 Mar 2022 20:30:23 -0500
+Subject: [PATCH] add install rules
+
+---
+ CMakeLists.txt | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 0115a26..0b88efe 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -379,3 +379,10 @@ foreach(flag IN LISTS SUNSHINE_COMPILE_OPTIONS)
+ endforeach()
+ 
+ target_compile_options(sunshine PRIVATE $<$<COMPILE_LANGUAGE:CXX>:${SUNSHINE_COMPILE_OPTIONS}>;$<$<COMPILE_LANGUAGE:CUDA>:${SUNSHINE_COMPILE_OPTIONS_CUDA};-std=c++17>)
++
++install(TARGETS sunshine
++        CONFIGURATIONS Debug
++        RUNTIME DESTINATION Debug/bin)
++install(TARGETS sunshine
++        CONFIGURATIONS Release
++        RUNTIME DESTINATION Release/bin)
+\ No newline at end of file
+-- 
+2.35.1
+
