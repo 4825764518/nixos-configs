@@ -5,7 +5,7 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-      sunshine = pkgs.callPackage ./default.nix;
+      sunshine = pkgs.callPackage ./default.nix {};
     in {
       packages.x86_64-linux.sunshine = sunshine;
       defaultPackage.x86_64-linux = sunshine;
