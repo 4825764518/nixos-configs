@@ -1,4 +1,6 @@
-{ stdenv, lib, fetchFromGitHub, boost, cmake, openssl }:
+{ stdenv, lib, fetchFromGitHub, boost, cmake, ffmpeg, libcap, libdrm, libevdev
+, libopus, libpulseaudio, libxkbcommon, linuxHeaders, openssl, pkg-config, udev
+, xorg, wayland }:
 
 let version = "0.11.1";
 in stdenv.mkDerivation {
@@ -13,10 +15,34 @@ in stdenv.mkDerivation {
     sha256 = "1lgczf3hjckr5r44mvka6jnha5ja2mpj72bwjqfyf61vkhg0gd32";
   };
 
-  nativeBuildInputs = [ cmake ];
-  buildInputs = [ boost openssl ];
+  hardeningDisable = [ "format" ];
 
-  cmakeFlags = [ "-DBoost_USE_STATIC_LIBS=OFF" ];
+  nativeBuildInputs = [ cmake pkg-config ];
+  buildInputs = [
+    boost
+    ffmpeg
+    libcap
+    libdrm
+    libevdev
+    libopus
+    libpulseaudio
+    libxkbcommon
+    linuxHeaders
+    openssl
+    udev
+    xorg.libX11
+    xorg.libxcb
+    xorg.libXfixes
+    xorg.libXrandr
+    xorg.libXtst
+    wayland
+  ];
+
+  postPatch = ''
+    substituteInPlace CMakeLists.txt \
+    --replace '/usr/include/libevdev-1.0' "$(pkg-config --cflags libevdev | cut -c 3-)" \
+    --replace "set(Boost_USE_STATIC_LIBS ON)" "set(Boost_USE_STATIC_LIBS OFF)"
+  '';
 
   meta = {
     description = "Host for Moonlight Streaming Client";
