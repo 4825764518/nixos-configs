@@ -104,6 +104,12 @@
     Option "Coolbits" "28"
   '';
 
+  hardware.firmware = with pkgs; [ broadcom-bt-firmware ];
+  hardware.bluetooth = {
+    enable = true;
+    package = pkgs.bluezFull;
+  };
+
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.modesetting.enable = true;
 
