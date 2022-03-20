@@ -23,13 +23,6 @@
       [ "ssd" "compress-force=zstd:3" "space_cache=v2" "discard=async" ];
   };
 
-  fileSystems."/mnt/mx500-raid" = {
-    device = "/dev/disk/by-id/ata-CT1000MX500SSD1_2045E4C5B3E1";
-    fsType = "btrfs";
-    options =
-      [ "ssd" "compress-force=zstd:5" "space_cache=v2" "discard=async" ];
-  };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/934C-9FE2";
     fsType = "vfat";
