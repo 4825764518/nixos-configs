@@ -29,10 +29,53 @@
   sops.secrets.firelink-traefik-config = {
     sopsFile = ../../secrets/firelink/containers.yaml;
   };
+  sops.secrets.firelink-firefly-environment = {
+    sopsFile = ../../secrets/firelink/containers.yaml;
+  };
+  sops.secrets.firelink-firefly-importer-environment = {
+    sopsFile = ../../secrets/firelink/containers.yaml;
+  };
+  sops.secrets.firelink-firefly-postgres-environment = {
+    sopsFile = ../../secrets/firelink/containers.yaml;
+  };
   sops.secrets.firelink-traefik-environment = {
-    sopsFile = ../../secrets/firelink/traefik.yaml;
+    sopsFile = ../../secrets/firelink/containers.yaml;
   };
   virtualisation.oci-containers.containers = {
+    firefly = {
+      autoStart = true;
+      environmentFiles =
+        [ "${config.sops.secrets.firelink-firefly-environment.path}" ];
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.routers.firefly.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.firefly.rule=Host(`firefly.lan.kenzi.dev`)"
+        "--label"
+        "traefik.http.services.firefly.loadbalancer.server.port=8080"
+      ];
+      image = "fireflyiii/core:version-5.6.16";
+      volumes = [ "/opt/firefly/upload:/var/www/html/storage/upload" ];
+    };
+    firefly-importer = {
+      autoStart = true;
+      environmentFiles =
+        [ "${config.sops.secrets.firelink-firefly-importer-environment.path}" ];
+      extraOptions = [ "--network=traefik-rproxy" ];
+      image = "fireflyiii/data-importer:version-0.9.0";
+      ports = [ "10.10.30.11:8081:8080" ];
+    };
+    firefly-postgres = {
+      autoStart = true;
+      environmentFiles =
+        [ "${config.sops.secrets.firelink-firefly-postgres-environment.path}" ];
+      extraOptions = [ "--network=traefik-rproxy" ];
+      image = "postgres:14.2";
+      volumes = [ "/opt/postgres/data:/var/lib/postgresql/data" ];
+    };
     jackett = {
       autoStart = true;
       environment = {
@@ -50,7 +93,7 @@
         "--label"
         "traefik.http.services.jackett.loadbalancer.server.port=9117"
       ];
-      image = "linuxserver/jackett:0.20.629";
+      image = "ghcr.io/linuxserver/jackett:0.20.736";
       volumes = [
         "/opt/jackett:/config"
         "/hangar/torrent-downloads/blackhole:/downloads"
@@ -87,7 +130,7 @@
         "--label"
         "traefik.http.routers.traefik.service=api@internal"
       ];
-      image = "traefik:v2.3";
+      image = "traefik:v2.6.1";
       ports = [ "10.10.30.11:443:443" ];
       volumes = [
         "${config.sops.secrets.traefik-traefik-config.path}:/traefik.yml:ro"
@@ -113,8 +156,7 @@
         "--label"
         "traefik.http.services.qbittorrent.loadbalancer.server.port=8082"
       ];
-      image =
-        "ghcr.io/linuxserver/qbittorrent:14.3.8.99202108291924-7418-9392ce436ubuntu20.04.1-ls152";
+      image = "ghcr.io/linuxserver/qbittorrent:4.4.1";
       ports = [ "10.10.30.11:40744:40744" ];
       volumes = [
         "/opt/qbittorrent:/config"
@@ -145,7 +187,7 @@
         "--label"
         "traefik.http.services.radarr.loadbalancer.server.port=7878"
       ];
-      image = "linuxserver/radarr:4.0.4";
+      image = "ghcr.io/linuxserver/radarr:4.0.5";
       volumes = [
         "/opt/radarr:/config"
         "/hangar:/hangar"
@@ -169,7 +211,7 @@
         "--label"
         "traefik.http.services.sonarr.loadbalancer.server.port=8989"
       ];
-      image = "linuxserver/sonarr:develop-alpine-3.0.6.1470-ls18";
+      image = "ghcr.io/linuxserver/sonarr:3.0.7";
       volumes = [
         "/opt/sonarr:/config"
         "/hangar:/hangar"
@@ -193,7 +235,7 @@
         "--label"
         "traefik.http.services.syncthing.loadbalancer.server.port=8384"
       ];
-      image = "ghcr.io/linuxserver/syncthing:v1.19.0-ls68";
+      image = "ghcr.io/linuxserver/syncthing:1.19.1";
       ports = [ "22000:22000" ];
       volumes = [
         "/opt/syncthing/config:/config"
