@@ -20,6 +20,7 @@
     gnomeExtensions.noannoyance
     gnomeExtensions.pixel-saver
     gnomeExtensions.vitals
+    usbutils
   ];
 
   fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
