@@ -77,7 +77,7 @@ in {
         "--label"
         "traefik.http.services.jackett.loadbalancer.server.port=9117"
       ];
-      image = "linuxserver/jackett:0.20.629";
+      image = "ghcr.io/linuxserver/jackett:0.20.736";
       volumes = [
         "/opt/jackett:/config"
         "/hangar/torrent-downloads/blackhole:/downloads"
@@ -114,7 +114,7 @@ in {
         "--label"
         "traefik.http.routers.traefik.service=api@internal"
       ];
-      image = "traefik:v2.3";
+      image = "traefik:v2.6.1";
       ports = [ "10.10.30.11:443:443" ];
       volumes = [
         "${traefikStaticConfigPath}:/traefik.yml:ro"
@@ -140,8 +140,7 @@ in {
         "--label"
         "traefik.http.services.qbittorrent.loadbalancer.server.port=8082"
       ];
-      image =
-        "ghcr.io/linuxserver/qbittorrent:14.3.8.99202108291924-7418-9392ce436ubuntu20.04.1-ls152";
+      image = "ghcr.io/linuxserver/qbittorrent:4.4.1";
       ports = [ "10.10.30.11:40744:40744" ];
       volumes = [
         "/opt/qbittorrent:/config"
@@ -172,7 +171,7 @@ in {
         "--label"
         "traefik.http.services.radarr.loadbalancer.server.port=7878"
       ];
-      image = "linuxserver/radarr:4.0.4";
+      image = "ghcr.io/linuxserver/radarr:4.0.5";
       volumes = [
         "/opt/radarr:/config"
         "/hangar:/hangar"
@@ -196,7 +195,7 @@ in {
         "--label"
         "traefik.http.services.sonarr.loadbalancer.server.port=8989"
       ];
-      image = "linuxserver/sonarr:develop-alpine-3.0.6.1470-ls18";
+      image = "ghcr.io/linuxserver/sonarr:3.0.7";
       volumes = [
         "/opt/sonarr:/config"
         "/hangar:/hangar"
@@ -220,7 +219,7 @@ in {
         "--label"
         "traefik.http.services.syncthing.loadbalancer.server.port=8384"
       ];
-      image = "ghcr.io/linuxserver/syncthing:v1.19.0-ls68";
+      image = "ghcr.io/linuxserver/syncthing:1.19.1";
       ports = [ "22000:22000" ];
       volumes = [
         "/opt/syncthing/config:/config"
