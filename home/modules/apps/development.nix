@@ -12,7 +12,10 @@ in {
 
   config = mkIf (homeCfg.enable && cfg.enable) {
     home.packages = with pkgs;
-      optionals isLinux [
+      [ # Nix tools
+        nix-prefetch
+        nix-prefetch-git
+      ] ++ optionals isLinux [
         # Editors
         jetbrains.clion
         jetbrains.goland
