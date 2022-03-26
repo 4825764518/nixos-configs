@@ -15,6 +15,9 @@ in {
       [ # Nix tools
         nix-prefetch
         nix-prefetch-git
+
+        # Misc tools
+        sqlitebrowser
       ] ++ optionals isLinux [
         # Editors
         jetbrains.clion

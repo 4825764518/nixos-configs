@@ -12,7 +12,7 @@ in {
 
   config = mkIf (homeCfg.enable && cfg.enable) {
     home.packages = with pkgs;
-      optionals isLinux [
+      [ gimp inkscape-with-extensions ] ++ optionals isLinux [
         firefox
         flameshot
         jellyfin-mpv-shim
