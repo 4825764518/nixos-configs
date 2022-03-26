@@ -2,16 +2,13 @@
   homebrew = {
     casks = [
       "altserver"
-      "db-browser-for-sqlite"
       "docker"
       "dotnet-sdk"
       "flameshot"
       "geekbench"
       "ghidra"
-      "gimp"
       "jellyfin-media-player"
       "jetbrains-toolbox"
-      "keepassxc"
       "libreoffice"
       "postman"
       "raycast"
