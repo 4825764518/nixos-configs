@@ -13,7 +13,7 @@ in {
     };
   };
 
-  config = {
+  config = mkIf (homeCfg.enable && cfg.enable) {
     programs.kitty = mkIf (cfg.backend == "kitty") {
       enable = true;
       font = {
