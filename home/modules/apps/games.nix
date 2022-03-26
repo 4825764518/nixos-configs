@@ -11,7 +11,7 @@ in {
   };
 
   config = mkIf (homeCfg.enable && cfg.enable) {
-    home.packages = with pkgs;
+    home.packages = with pkgs; [ retroarchFull ] ++ 
       optionals isLinux [
         # Emulators
         citra
