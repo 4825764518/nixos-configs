@@ -19,6 +19,7 @@ with lib;
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/gtk.nix
+    ./modules/qt.nix
   ];
 
   config = {
