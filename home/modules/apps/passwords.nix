@@ -11,6 +11,6 @@ in {
   };
 
   config = mkIf (homeCfg.enable && cfg.enable) {
-    home.packages = with pkgs; [ keepassxc ] ++ optionals isLinux [ bitwarden ];
+    home.packages = with pkgs; optionals isLinux [ bitwarden keepassxc ];
   };
 }

@@ -11,16 +11,16 @@ in {
   };
 
   config = mkIf (homeCfg.enable && cfg.enable) {
-    home.packages = with pkgs; [ retroarchFull ] ++ 
-      optionals isLinux [
-        # Emulators
-        citra
-        dolphin-emu-beta
-        lutris
-        pcsx2
-        polymc
-        rpcs3
-        yuzu-ea
-      ];
+    home.packages = with pkgs; optionals isLinux [
+      # Emulators
+      citra
+      dolphin-emu-beta
+      lutris
+      pcsx2
+      polymc
+      retroarchFull
+      rpcs3
+      yuzu-ea
+    ];
   };
 }
