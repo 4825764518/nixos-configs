@@ -16,6 +16,10 @@
         system = "x86_64-linux";
         config.allowUnfree = true;
       };
+      pkgsNonfree-darwin-x64 = import nixpkgs {
+        system = "x86_64-darwin";
+        config.allowUnfree = true;
+      };
       pkgsNonfree-darwin-aarch64 = import nixpkgs {
         system = "aarch64-darwin";
         config.allowUnfree = true;
@@ -58,8 +62,17 @@
             sops-nix.darwinModules.sops
             { sops.age.sshKeyPaths = [ "/var/root/.sops-keys/id_ed25519" ]; }
             home-manager.darwinModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                intelPkgs = pkgsNonfree-darwin-x64;
+              };
+            }
           ];
           pkgs = pkgsNonfree-darwin-aarch64;
+          inputs = {
+            inherit self;
+            intelPkgs = pkgsNonfree-darwin-x64;
+          };
         };
       };
     };
