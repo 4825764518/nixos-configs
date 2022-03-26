@@ -8,8 +8,6 @@
     ./modules/terminal.nix
 
     ./modules/apps/development.nix
-    ./modules/apps/passwords.nix
-    ./modules/apps/shitcoins.nix
 
     # TODO
     ./modules/git.nix
@@ -24,7 +22,5 @@
     profiles.home.terminal.enable = true;
 
     profiles.home.applications.development.enable = true;
-    profiles.home.applications.passwords.enable = true;
-    profiles.home.applications.shitcoins.enable = true;
   };
 }

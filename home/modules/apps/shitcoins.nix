@@ -11,6 +11,6 @@ in {
   };
 
   config = mkIf (homeCfg.enable && cfg.enable) {
-    home.packages = with pkgs; [ monero-gui ] ++ optionals isLinux [ xmrig-mo ];
+    home.packages = with pkgs; optionals isLinux [ monero-gui xmrig-mo ];
   };
 }
