@@ -19,6 +19,7 @@
       pkgsNonfree-darwin-x64 = import nixpkgs {
         system = "x86_64-darwin";
         config.allowUnfree = true;
+        overlays = [ darwinOverlay ];
       };
       pkgsNonfree-darwin-aarch64 = import nixpkgs {
         system = "aarch64-darwin";
