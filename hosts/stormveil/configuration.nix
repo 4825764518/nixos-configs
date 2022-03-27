@@ -170,6 +170,20 @@
     };
   };
 
+  services.openiscsi.enable = true;
+  services.openiscsi.name = "iqn.2016-04.com.open-iscsi:c0ee13f5fb49";
+
+  # TODO: find a better way to do this
+  systemd.services."stormveil-iscsi-mount" = {
+    wantedBy = [ "remote-fs.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      ${pkgs.openiscsi}/bin/iscsiadm -m discovery -t sendtargets -l -p 10.10.31.10:3260
+      sleep 3 # Horrible hack because iscsiadm exits before the device has finished attaching
+      ${pkgs.mount}/bin/mount -t xfs /dev/disk/by-uuid/2e1225e2-9e91-4461-af01-6c229086bda5 /mnt/linux-game-libraries
+    '';
+  };
+
   environment.systemPackages =
     [ (pkgs.callPackage ../../pkgs/sunshine/default.nix { }) ];
 
