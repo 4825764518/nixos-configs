@@ -9,7 +9,6 @@
       "geekbench"
       "ghidra"
       "gimp"
-      "inkscape"
       "jellyfin-media-player"
       "jetbrains-toolbox"
       "libreoffice"

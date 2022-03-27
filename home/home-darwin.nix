@@ -8,6 +8,7 @@
     ./modules/terminal.nix
 
     ./modules/apps/development.nix
+    ./modules/apps/media.nix
 
     # TODO
     ./modules/git.nix
@@ -22,5 +23,6 @@
     profiles.home.terminal.enable = true;
 
     profiles.home.applications.development.enable = true;
+    profiles.home.applications.media.enable = true;
   };
 }

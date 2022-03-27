@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, intelPkgs, ... }:
 
 with lib;
 let
@@ -21,6 +21,6 @@ in {
         mpv
         obs-studio
         spotify
-      ];
+      ] ++ optionals isDarwin [ intelPkgs.inkscape-with-extensions ];
   };
 }
