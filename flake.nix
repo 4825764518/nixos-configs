@@ -27,6 +27,8 @@
         overlays = [ darwinOverlay ];
       };
     in {
+      devShell.x64_64-linux = import ./shell.nix { pkgs = pkgsNonfree-linux-x64; };
+      devShell.aarch64-darwin = import ./shell.nix { pkgs = pkgsNonfree-darwin-aarch64; };
       nixosConfigurations = {
         firelink = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
