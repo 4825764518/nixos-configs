@@ -1,12 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./linux-common.nix
-    ../apps/lightdm.nix
-    ../apps/linux-desktop/development.nix
-    ../apps/linux-desktop/games.nix
-  ];
+  imports = [ ./linux-common.nix ../apps/lightdm.nix ];
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -26,6 +21,7 @@
   fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
 
   programs.dconf.enable = true;
+  programs.steam.enable = true;
 
   services.flatpak.enable = true;
   services.udev.packages = with pkgs; [ gnome3.gnome-settings-daemon ];
