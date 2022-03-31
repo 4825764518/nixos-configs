@@ -158,7 +158,7 @@ in {
         "traefik.http.routers.traefik.service=api@internal"
       ];
       image = "traefik:v2.6.1";
-      ports = [ "10.10.30.11:443:443" ];
+      ports = [ "10.10.30.11:443:443" "192.168.170.11:443:443" ];
       volumes = [
         "${traefikStaticConfigPath}:/traefik.yml:ro"
         "/opt/traefik/acme.json:/acme.json"

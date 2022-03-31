@@ -35,13 +35,13 @@
     };
     wireguard.interfaces = {
       wg-internal = {
-        ips = [ "10.10.10.4/24" ];
+        ips = [ "192.168.170.11/24" ];
         listenPort = 51820;
         privateKeyFile =
           "${config.sops.secrets.firelink-wireguard-privkey.path}";
         peers = [{
           publicKey = "Mo1wqAe5SNixIikRSlVY9DpT5Nz19mZenWym3voa0TM=";
-          allowedIPs = [ "10.10.10.0/24" "10.10.40.0/24" ];
+          allowedIPs = [ "192.168.170.0/24" ];
           endpoint = "192.99.14.203:51820";
           persistentKeepalive = 25;
         }];
