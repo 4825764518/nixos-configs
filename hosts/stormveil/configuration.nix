@@ -178,6 +178,7 @@
     wantedBy = [ "remote-fs.target" ];
     serviceConfig.Type = "oneshot";
     script = ''
+      ${pkgs.openiscsi}/bin/iscsiadm -m node -U all || true # Log out of all existing sessions first, ignore the result because this will fail on a fresh reboot
       ${pkgs.openiscsi}/bin/iscsiadm -m discovery -t sendtargets -l -p 10.10.31.10:3260
       sleep 3 # Horrible hack because iscsiadm exits before the device has finished attaching
       ${pkgs.mount}/bin/mount -t xfs /dev/disk/by-uuid/2e1225e2-9e91-4461-af01-6c229086bda5 /mnt/linux-game-libraries
