@@ -1,7 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../linux-desktop-common.nix ./hardware-configuration.nix ];
+  imports = [
+    ../linux-desktop-common.nix
+    ./hardware-configuration.nix
+    ./wireguard.nix
+  ];
 
   networking.hostName = "stormveil";
 
@@ -33,20 +37,6 @@
         ipv4.addresses = [{
           address = "10.10.31.20";
           prefixLength = 24;
-        }];
-      };
-    };
-    wireguard.interfaces = {
-      wg-internal = {
-        ips = [ "192.168.170.20/24" ];
-        listenPort = 51820;
-        privateKeyFile =
-          "${config.sops.secrets.stormveil-wireguard-privkey.path}";
-        peers = [{
-          publicKey = "Mo1wqAe5SNixIikRSlVY9DpT5Nz19mZenWym3voa0TM=";
-          allowedIPs = [ "192.168.170.0/24" ];
-          endpoint = "192.99.14.203:51820";
-          persistentKeepalive = 25;
         }];
       };
     };
