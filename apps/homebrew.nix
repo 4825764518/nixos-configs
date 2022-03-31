@@ -5,6 +5,7 @@
       "db-browser-for-sqlite"
       "docker"
       "dotnet-sdk"
+      "firefox"
       "flameshot"
       "geekbench"
       "ghidra"

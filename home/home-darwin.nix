@@ -8,8 +8,10 @@
     ./modules/terminal.nix
 
     ./modules/apps/development.nix
+    ./modules/apps/media.nix
 
     # TODO
+    ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gpg.nix
   ];
@@ -22,5 +24,6 @@
     profiles.home.terminal.enable = true;
 
     profiles.home.applications.development.enable = true;
+    profiles.home.applications.media.enable = true;
   };
 }

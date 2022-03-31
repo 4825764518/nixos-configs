@@ -16,6 +16,7 @@ with lib;
     ./modules/apps/social.nix
 
     # TODO
+    ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gpg.nix
     ./modules/gtk.nix
