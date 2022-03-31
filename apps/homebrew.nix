@@ -5,6 +5,7 @@
       "db-browser-for-sqlite"
       "docker"
       "dotnet-sdk"
+      "eloston-chromium"
       "firefox"
       "flameshot"
       "geekbench"
