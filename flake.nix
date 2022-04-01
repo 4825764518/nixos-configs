@@ -26,13 +26,23 @@
         overlays = [ darwinOverlay ];
       };
     in {
-      devShell.x86_64-linux = import ./shell.nix { pkgs = pkgsNonfree-linux-x64; };
-      devShell.aarch64-darwin = import ./shell.nix { pkgs = pkgsNonfree-darwin-aarch64; };
+      devShell.x86_64-linux =
+        import ./shell.nix { pkgs = pkgsNonfree-linux-x64; };
+      devShell.aarch64-darwin =
+        import ./shell.nix { pkgs = pkgsNonfree-darwin-aarch64; };
       nixosConfigurations = {
         firelink = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/firelink/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+          ];
+        };
+        morne = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/morne/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
           ];
