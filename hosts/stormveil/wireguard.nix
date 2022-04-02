@@ -1,6 +1,16 @@
 { lib, config, pkgs, ... }:
 
-{
+let
+  makeMullvadConfig = { publicKey, endpoint }: {
+    address = [ "10.64.180.86/32" "fc00:bbbb:bbbb:bb01::1:b455/128" ];
+    privateKeyFile =
+      "${config.sops.secrets.stormveil-wireguard-mullvad-privkey.path}";
+    peers = [{
+      allowedIPs = [ "0.0.0.0/0" "::0/0" ];
+      inherit publicKey endpoint;
+    }];
+  };
+in {
   config = {
     sops.secrets.stormveil-wireguard-privkey = {
       sopsFile = ../../secrets/stormveil/wireguard.yaml;
@@ -34,16 +44,31 @@
       };
     };
     networking.wg-quick.interfaces = {
-      mullvad-us241 = {
-        address = [ "10.64.180.86/32" "fc00:bbbb:bbbb:bb01::1:b455/128" ];
-        privateKeyFile =
-          "${config.sops.secrets.stormveil-wireguard-mullvad-privkey.path}";
-        peers = [{
-          publicKey = "AgaO2dCgD3SNEW8II143+pcMREFsnkoieay25nFLxDs=";
-          allowedIPs = [ "0.0.0.0/0" "::0/0" ];
-          endpoint = "23.226.135.50:51820";
-        }];
+      mullvad-ca15 = makeMullvadConfig {
+        publicKey = "dn27fhdet9sxRl3biHeCBvA5edZMC03bh0zZIj3DJzI=";
+        endpoint = "89.36.78.226:51820";
+      };
+      mullvad-jp3 = makeMullvadConfig {
+        publicKey = "oWo/Ljb6SYqJYHHhRd8nKDjFJx9MqfouEYSJvba4XH4=";
+        endpoint = "45.8.223.225:51820";
+      };
+      mullvad-md1 = makeMullvadConfig {
+        publicKey = "BQobp2UXHJguYGz06WWJGJV6QytNIZlgMwr6Joufhx8=";
+        endpoint = "178.175.131.98:51820";
+      };
+      mullvad-us241 = makeMullvadConfig {
+        publicKey = "AgaO2dCgD3SNEW8II143+pcMREFsnkoieay25nFLxDs=";
+        endpoint = "23.226.135.50:51820";
+      };
+      mullvad-us249 = makeMullvadConfig {
+        publicKey = "TvqnL6VkJbz0KrjtHnUYWvA7zRt9ysI64LjTOx2vmm4=";
+        endpoint = "198.54.135.130:51820";
       };
     };
+    # use mullvad-us249 by default
+    systemd.services.wg-quick-mullvad-ca15.wantedBy = lib.mkForce [ ];
+    systemd.services.wg-quick-mullvad-jp3.wantedBy = lib.mkForce [ ];
+    systemd.services.wg-quick-mullvad-md1.wantedBy = lib.mkForce [ ];
+    systemd.services.wg-quick-mullvad-us241.wantedBy = lib.mkForce [ ];
   };
 }
