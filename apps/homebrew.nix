@@ -1,5 +1,6 @@
 { config, pkgs, ... }: {
   homebrew = {
+    brews = [ "wireguard-tools" ];
     casks = [
       "altserver"
       "db-browser-for-sqlite"
