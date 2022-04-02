@@ -19,14 +19,14 @@
       enp6s18 = {
         useDHCP = false;
         ipv4.addresses = [{
-          address = "10.10.30.12";
+          address = "192.168.169.12";
           prefixLength = 24;
         }];
       };
     };
 
-    defaultGateway = "10.10.30.1";
-    nameservers = [ "10.10.30.1" ];
+    defaultGateway = "192.168.169.1";
+    nameservers = [ "192.168.169.1" ];
   };
 
   i18n.defaultLocale = "en_US.UTF-8";

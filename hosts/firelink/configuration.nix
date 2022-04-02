@@ -22,7 +22,7 @@
     interfaces.enp6s18 = {
       useDHCP = false;
       ipv4.addresses = [{
-        address = "10.10.30.11";
+        address = "192.168.169.11";
         prefixLength = 24;
       }];
     };
@@ -50,7 +50,8 @@
           {
             # morne
             publicKey = "+y5ZjN6GToEbF3fwRnwJJH+tDZsgEvsJXoKyno0SfVg=";
-            allowedIPs = [ "192.168.171.0/24" "10.67.238.34/32" "10.64.57.118/32" ];
+            allowedIPs =
+              [ "192.168.171.0/24" "10.67.238.34/32" "10.64.57.118/32" ];
             endpoint = "51.222.128.114:51820";
             persistentKeepalive = 25;
           }
@@ -58,8 +59,8 @@
       };
     };
 
-    defaultGateway = "10.10.30.1";
-    nameservers = [ "10.10.30.1" ];
+    defaultGateway = "192.168.169.1";
+    nameservers = [ "192.168.169.1" ];
   };
 
   i18n.defaultLocale = "en_US.UTF-8";

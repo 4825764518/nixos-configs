@@ -93,7 +93,7 @@ in {
         [ "${config.sops.secrets.firelink-firefly-importer-environment.path}" ];
       extraOptions = [ "--network=traefik-rproxy" ];
       image = "fireflyiii/data-importer:version-0.9.0";
-      ports = [ "10.10.30.11:8081:8080" ];
+      ports = [ "192.168.169.11:8081:8080" ];
     };
     firefly-postgres = {
       autoStart = true;
@@ -138,7 +138,7 @@ in {
         "traefik.http.routers.jellyfin.rule=Host(`jellyfin.lan.kenzi.dev`)"
       ];
       image = "jellyfin/jellyfin:10.7.7";
-      ports = [ "10.10.30.11:8096:8096" ];
+      ports = [ "192.168.169.11:8096:8096" ];
       volumes = [
         "/opt/jellyfin/config:/config"
         "/opt/jellyfin/cache:/cache"
@@ -158,7 +158,7 @@ in {
         "traefik.http.routers.traefik.service=api@internal"
       ];
       image = "traefik:v2.6.1";
-      ports = [ "10.10.30.11:443:443" "192.168.171.11:443:443" ];
+      ports = [ "192.168.169.11:443:443" "192.168.171.11:443:443" ];
       volumes = [
         "${traefikStaticConfigPath}:/traefik.yml:ro"
         "/opt/traefik/acme.json:/acme.json"
@@ -184,7 +184,7 @@ in {
         "traefik.http.services.qbittorrent.loadbalancer.server.port=8082"
       ];
       image = "ghcr.io/linuxserver/qbittorrent:4.4.1";
-      ports = [ "10.10.30.11:40744:40744" ];
+      ports = [ "192.168.169.11:40744:40744" ];
       volumes = [
         "/opt/qbittorrent:/config"
         "/hangar/torrent-downloads:/hangar/torrent-downloads"
