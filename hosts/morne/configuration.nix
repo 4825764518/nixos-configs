@@ -36,12 +36,6 @@
         ips = [ "192.168.171.1/24" ];
         listenPort = 51820;
         privateKeyFile = "${config.sops.secrets.morne-wireguard-privkey.path}";
-        postSetup = ''
-          ${pkgs.iptables}/bin/iptables -A FORWARD -i %i -j ACCEPT; ${pkgs.iptables}/bin/iptables -A FORWARD -o %i -j ACCEPT; ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o enp1s0 -j MASQUERADE
-        '';
-        postShutdown = ''
-          ${pkgs.iptables}/bin/iptables -D FORWARD -i %i -j ACCEPT; ${pkgs.iptables}/bin/iptables -D FORWARD -o %i -j ACCEPT; ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -o enp1s0 -j MASQUERADE
-        '';
         peers = [
           {
             # ovh
@@ -128,12 +122,6 @@
   };
 
   networking.firewall.enable = true;
-  networking.firewall.allowedUDPPortRanges = [{
-    from = 0;
-    to = 65535;
-  }];
-  networking.firewall.allowedTCPPortRanges = [{
-    from = 0;
-    to = 65535;
-  }];
+  networking.firewall.allowedTCPPorts = [ 22 51820 ];
+  networking.firewall.allowedUDPPorts = [ 22 51820 ];
 }
