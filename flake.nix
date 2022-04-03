@@ -2,6 +2,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
@@ -9,10 +10,14 @@
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixos, nix-darwin, home-manager, sops-nix }:
+  outputs = { self, nixpkgs, nixos, nixos-small, nix-darwin, home-manager, sops-nix }:
     let
       darwinOverlay = import ./overlay-darwin.nix;
       pkgsNonfree-linux-x64 = import nixos {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+      pkgsNonfree-linux-x64-small = import nixos-small {
         system = "x86_64-linux";
         config.allowUnfree = true;
       };
@@ -56,14 +61,14 @@
           ];
           pkgs = pkgsNonfree-linux-x64;
         };
-        stormveil = nixos.lib.nixosSystem {
+        stormveil = nixos-small.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/stormveil/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
           ];
-          pkgs = pkgsNonfree-linux-x64;
+          pkgs = pkgsNonfree-linux-x64-small;
         };
       };
       darwinConfigurations = {
