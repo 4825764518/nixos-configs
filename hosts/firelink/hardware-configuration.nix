@@ -22,6 +22,7 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/7bc30e43-51bd-4e19-b3aa-7d60bdbf1eb2";
     fsType = "xfs";
+    options = [ "discard" ];
   };
 
   fileSystems."/boot" = {

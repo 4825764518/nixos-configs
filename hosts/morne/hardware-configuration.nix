@@ -15,7 +15,7 @@
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/c3325b62-df6a-4f10-9506-f4c45cdf632a";
     fsType = "btrfs";
-    options = [ "compress-force=zstd:3" "space_cache=v2" ];
+    options = [ "compress-force=zstd:3" "space_cache=v2" "discard" ];
   };
 
   fileSystems."/boot" = {
