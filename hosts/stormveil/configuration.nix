@@ -124,7 +124,7 @@
     lanBackup = {
       initialize = true;
       passwordFile = "${config.sops.secrets.stormveil-restic-password.path}";
-      paths = [ "/home" "/mnt/qlc-nvme" "/mnt/mx500-raid" ];
+      paths = [ "/home" "/mnt/qlc-nvme" "/mnt/linux-game-libraries" ];
       pruneOpts = [
         "--keep-daily 30"
         "--keep-weekly 12"
