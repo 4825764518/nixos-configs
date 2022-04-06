@@ -10,10 +10,8 @@
 
   environment.systemPackages = with pkgs; [
     lm_sensors
-    gnomeExtensions.appindicator
     gnomeExtensions.logo-menu
-    gnomeExtensions.noannoyance
-    gnomeExtensions.pixel-saver
+    gnomeExtensions.user-themes
     gnomeExtensions.vitals
     usbutils
   ];
