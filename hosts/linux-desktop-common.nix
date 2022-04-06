@@ -9,10 +9,11 @@
   boot.blacklistedKernelModules = [ "snd_hda_codec_hdmi" ];
 
   environment.systemPackages = with pkgs; [
-    lm_sensors
     gnomeExtensions.logo-menu
     gnomeExtensions.user-themes
     gnomeExtensions.vitals
+    lm_sensors
+    qgnomeplatform
     usbutils
   ];
 
