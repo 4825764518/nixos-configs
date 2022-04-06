@@ -10,16 +10,19 @@
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, nixos, nixos-small, nix-darwin, home-manager, sops-nix }:
+  outputs =
+    { self, nixpkgs, nixos, nixos-small, nix-darwin, home-manager, sops-nix }:
     let
       darwinOverlay = import ./overlay-darwin.nix;
       pkgsNonfree-linux-x64 = import nixos {
         system = "x86_64-linux";
         config.allowUnfree = true;
+        config.joypixels.acceptLicense = true;
       };
       pkgsNonfree-linux-x64-small = import nixos-small {
         system = "x86_64-linux";
         config.allowUnfree = true;
+        config.joypixels.acceptLicense = true;
       };
       pkgsNonfree-darwin-x64 = import nixpkgs {
         system = "x86_64-darwin";

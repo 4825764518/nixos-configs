@@ -17,7 +17,23 @@
     usbutils
   ];
 
-  fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
+  fonts.fontconfig = {
+    enable = true;
+    defaultFonts = {
+      sansSerif = [ "Fira Sans" ];
+      serif = [ "Fira Sans" ];
+      monospace = [ "Fira Mono" ];
+      emoji = [ "JoyPixels" ];
+    };
+  };
+
+  fonts.fonts = with pkgs; [
+    fira
+    fira-mono
+    fira-code
+    fira-code-symbols
+    joypixels
+  ];
 
   programs.dconf.enable = true;
   programs.steam.enable = true;
