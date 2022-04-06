@@ -21,6 +21,7 @@ in {
         mpv
         obs-studio
         spotify
+        ungoogled-chromium
       ];
   };
 }
