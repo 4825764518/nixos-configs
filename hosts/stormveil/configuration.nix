@@ -182,7 +182,10 @@
   environment.systemPackages = with pkgs; [
     (callPackage ../../pkgs/sunshine/default.nix { })
     virt-manager
+    wine-staging
   ];
+
+  hardware.opengl.driSupport32Bit = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
