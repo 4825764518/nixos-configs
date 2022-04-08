@@ -4,6 +4,7 @@
   '';
   # this is required until nix 2.4 is released
   nix.package = pkgs.nixUnstable;
+  nix.trustedUsers = [ "@wheel" ];
 
   environment.systemPackages = with pkgs; [ nixfmt ];
 }
