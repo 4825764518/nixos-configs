@@ -10,10 +10,13 @@
     sops-nix.url = "github:4825764518/sops-nix/darwin";
     # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     deploy-rs.url = "github:serokell/deploy-rs";
+    deploy-rs.inputs.nixpkgs.follows = "nixos";
+    deploy-rs-stable.url = "github:serokell/deploy-rs";
+    deploy-rs-stable.inputs.nixpkgs.follows = "nixos-stable";
   };
 
   outputs = { self, nixpkgs, nixos, nixos-small, nixos-stable, nix-darwin, home-manager
-    , sops-nix, deploy-rs }:
+    , sops-nix, deploy-rs, deploy-rs-stable }:
     let
       darwinOverlay = import ./overlay-darwin.nix;
       pkgsNonfree-linux-x64 = import nixos {
@@ -96,7 +99,7 @@
           profiles.system = {
             sshUser = "shrinekeeper";
             user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos
+            path = deploy-rs-stable.lib.x86_64-linux.activate.nixos
               self.nixosConfigurations.firelink;
           };
         };
@@ -106,13 +109,13 @@
           profiles.system = {
             sshUser = "misbegotten";
             user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos
+            path = deploy-rs-stable.lib.x86_64-linux.activate.nixos
               self.nixosConfigurations.morne;
           };
         };
       };
 
       checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs-stable.lib;
     };
 }
