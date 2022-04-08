@@ -3,17 +3,8 @@
 {
   imports = [ ../apps/common.nix ../apps/nix.nix ];
 
-  boot.initrd.kernelModules = [ "zstd" "z3fold" ];
   boot.kernelParams =
-    [ "zswap.enabled=1" "zswap.compressor=zstd" "zswap.zpool=z3fold" ];
-  boot.kernelPatches = [{
-    name = "zswap";
-    patch = null;
-    extraConfig = ''
-      Z3FOLD y
-      CRYPTO_ZSTD y
-    '';
-  }];
+    [ "zswap.enabled=1" "zswap.compressor=lz4" "zswap.zpool=zbud" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
