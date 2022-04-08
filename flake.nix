@@ -3,6 +3,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixos.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixos-stable.url = "github:nixos/nixpkgs/nixos-21.11";
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
@@ -11,7 +12,7 @@
     deploy-rs.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, nixos, nixos-small, nix-darwin, home-manager
+  outputs = { self, nixpkgs, nixos, nixos-small, nixos-stable, nix-darwin, home-manager
     , sops-nix, deploy-rs }:
     let
       darwinOverlay = import ./overlay-darwin.nix;
@@ -40,7 +41,7 @@
       devShell.aarch64-darwin =
         import ./shell.nix { pkgs = pkgsNonfree-darwin-aarch64; };
       nixosConfigurations = {
-        firelink = nixpkgs.lib.nixosSystem {
+        firelink = nixos-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/firelink/configuration.nix
@@ -48,7 +49,7 @@
             home-manager.nixosModules.home-manager
           ];
         };
-        morne = nixpkgs.lib.nixosSystem {
+        morne = nixos-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/morne/configuration.nix
