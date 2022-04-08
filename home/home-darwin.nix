@@ -14,6 +14,7 @@
     ./modules/firefox.nix
     ./modules/git.nix
     ./modules/gpg.nix
+    ./modules/ssh.nix
   ];
 
   config = {

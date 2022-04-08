@@ -21,6 +21,7 @@ with lib;
     ./modules/gpg.nix
     ./modules/gtk.nix
     ./modules/qt.nix
+    ./modules/ssh.nix
   ];
 
   config = {
