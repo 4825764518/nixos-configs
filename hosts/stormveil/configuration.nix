@@ -176,8 +176,13 @@
     '';
   };
 
-  environment.systemPackages =
-    [ (pkgs.callPackage ../../pkgs/sunshine/default.nix { }) ];
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    (callPackage ../../pkgs/sunshine/default.nix { })
+    virt-manager
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
