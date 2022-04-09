@@ -44,6 +44,14 @@
       devShell.aarch64-darwin =
         import ./shell.nix { pkgs = pkgsNonfree-darwin-aarch64; };
       nixosConfigurations = {
+        ainsel = nixos-stable.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/ainsel/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+          ];
+        };
         firelink = nixos-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [

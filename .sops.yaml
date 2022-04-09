@@ -1,6 +1,7 @@
 keys:
   - &interloper age1nhsjw9ju9ezqpvre23exxjmhhzhz688t682dy2s28z7avsevr4dqhjpqfd
   - &stormveil age1pen3t2pauvtvpnce7k8pee68mhwyk8qawrsfktje88aq3zjrm4rq0kns6m
+  - &server_ainsel age1r4mlnu2xcppdta73z77zpa3vwpgtdwueqcqf44mv5dqcsy6auvks2jw80r
   - &server_firelink age1zgx808cx5wtq50uk9xqwn2sse5muvg0snat5ywact0zcrvzr758q7xq7lk
   - &server_interloper age1q94wq7mhcnws7cf5wp6dauqdwjufyy6zjxv68na9s5sa78glkdnshu2hsm
   - &server_leyndell age1slmqtvvf2y4e2f5hkzry7ue0utgngpj9jeua93xntmwez7r7pc6qmth53a
@@ -12,6 +13,7 @@ creation_rules:
     - age:
       - *interloper
       - *stormveil
+      - *server_ainsel
       - *server_firelink
       - *server_interloper
       - *server_leyndell
