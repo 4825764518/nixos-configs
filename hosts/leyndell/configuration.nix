@@ -1,8 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ ../linux-common.nix ./hardware-configuration.nix ./wireguard.nix ];
+  imports = [
+    ../linux-common.nix
+    ./containers.nix
+    ./hardware-configuration.nix
+    ./wireguard.nix
+  ];
 
   networking.hostName = "leyndell";
 
@@ -37,17 +41,32 @@
   };
 
   users = {
-    users.esgar = {
-      isNormalUser = true;
-      home = "/home/esgar";
-      extraGroups = [ "wheel" ];
-      openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
-      shell = pkgs.zsh;
+    groups = {
+      synapse = {
+        gid = 2000;
+        members = [ "synapse" ];
+      };
     };
 
-    users.root = {
-      password = null;
-      shell = pkgs.zsh;
+    users = {
+      esgar = {
+        isNormalUser = true;
+        home = "/home/esgar";
+        extraGroups = [ "wheel" ];
+        openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
+        shell = pkgs.zsh;
+      };
+
+      root = {
+        password = null;
+        shell = pkgs.zsh;
+      };
+
+      synapse = {
+        isSystemUser = true;
+        group = "synapse";
+        uid = 2000;
+      };
     };
   };
 
@@ -68,7 +87,7 @@
   };
 
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 51820 ];
+  networking.firewall.allowedTCPPorts = [ 22 443 51820 ];
   networking.firewall.allowedUDPPorts = [ 22 51820 ];
 
   # This value determines the NixOS release from which the default
