@@ -1,7 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../linux-common.nix ./hardware-configuration.nix ];
+  imports =
+    [ ../linux-common.nix ./hardware-configuration.nix ./wireguard.nix ];
 
   networking.hostName = "leyndell";
 

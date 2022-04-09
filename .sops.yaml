@@ -19,12 +19,24 @@ creation_rules:
       - *server_leyndell
       - *server_morne
       - *server_stormveil
+  - path_regex: secrets/ainsel/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *interloper
+      - *stormveil
+      - *server_ainsel
   - path_regex: secrets/firelink/[^/]+\.yaml$
     key_groups:
     - age:
       - *interloper
       - *stormveil
       - *server_firelink
+  - path_regex: secrets/leyndell/[^/]+\.yaml$
+    key_groups:
+    - age:
+      - *interloper
+      - *stormveil
+      - *server_leyndell
   - path_regex: secrets/morne/[^/]+\.yaml$
     key_groups:
     - age:

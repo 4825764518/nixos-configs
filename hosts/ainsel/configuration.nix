@@ -2,10 +2,7 @@
 
 {
   imports =
-    [
-      ../linux-common.nix
-      ./hardware-configuration.nix
-    ];
+    [ ../linux-common.nix ./hardware-configuration.nix ./wireguard.nix ];
 
   networking.hostName = "ainsel";
 
