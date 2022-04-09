@@ -50,6 +50,15 @@
     };
   };
 
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    verbose = true;
+
+    users.esgar = import ../../home/home-linux-server.nix;
+    users.root = import ../../home/home-linux-server.nix;
+  };
+
   services.openssh.enable = true;
 
   networking.firewall.enable = false;
