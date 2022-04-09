@@ -15,8 +15,8 @@
     deploy-rs-stable.inputs.nixpkgs.follows = "nixos-stable";
   };
 
-  outputs = { self, nixpkgs, nixos, nixos-small, nixos-stable, nix-darwin, home-manager
-    , sops-nix, deploy-rs, deploy-rs-stable }:
+  outputs = { self, nixpkgs, nixos, nixos-small, nixos-stable, nix-darwin
+    , home-manager, sops-nix, deploy-rs, deploy-rs-stable }:
     let
       darwinOverlay = import ./overlay-darwin.nix;
       pkgsNonfree-linux-x64 = import nixos {
@@ -48,6 +48,14 @@
           system = "x86_64-linux";
           modules = [
             ./hosts/firelink/configuration.nix
+            sops-nix.nixosModules.sops
+            home-manager.nixosModules.home-manager
+          ];
+        };
+        leyndell = nixos-stable.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./hosts/leyndell/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
           ];
@@ -116,6 +124,7 @@
       };
 
       checks = builtins.mapAttrs
-        (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs-stable.lib;
+        (system: deployLib: deployLib.deployChecks self.deploy)
+        deploy-rs-stable.lib;
     };
 }
