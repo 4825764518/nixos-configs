@@ -111,6 +111,16 @@
               self.nixosConfigurations.firelink;
           };
         };
+        leyndell = {
+          autoRollback = true;
+          hostname = "leyndell";
+          profiles.system = {
+            sshUser = "esgar";
+            user = "root";
+            path = deploy-rs-stable.lib.x86_64-linux.activate.nixos
+              self.nixosConfigurations.leyndell;
+          };
+        };
         morne = {
           autoRollback = true;
           hostname = "morne";

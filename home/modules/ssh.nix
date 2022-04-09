@@ -19,6 +19,10 @@ in {
         hostname = "192.168.169.10";
         user = "root";
       };
+      "leyndell" = defaultTrustedOptions // {
+        hostname = "65.108.197.14";
+        user = "esgar";
+      };
       "morne" = defaultTrustedOptions // {
         hostname = "51.222.128.114";
         user = "misbegotten";
