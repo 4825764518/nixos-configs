@@ -54,10 +54,42 @@ in {
       '';
   };
 
+  sops.secrets.ainsel-minio-environment = {
+    sopsFile = ../../secrets/ainsel/containers.yaml;
+  };
   sops.secrets.ainsel-traefik-environment = {
     sopsFile = ../../secrets/ainsel/containers.yaml;
   };
   virtualisation.oci-containers.containers = {
+    minio = {
+      autoStart = true;
+      cmd = [ "server" "/data" "--console-address" ":9001" ];
+      environmentFiles =
+        [ "${config.sops.secrets.ainsel-minio-environment.path}" ];
+      extraOptions = [
+        "--network=traefik-rproxy"
+        "--label"
+        "traefik.enable=true"
+        "--label"
+        "traefik.http.services.minio-api.loadbalancer.server.port=9000"
+        "--label"
+        "traefik.http.routers.minio-api.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.minio-api.rule=Host(`s3.ainsel.kenzi.dev`)"
+        "--label"
+        "traefik.http.routers.minio-api.service=minio-api"
+        "--label"
+        "traefik.http.services.minio.loadbalancer.server.port=9001"
+        "--label"
+        "traefik.http.routers.minio.entryPoints=websecure"
+        "--label"
+        "traefik.http.routers.minio.rule=Host(`minio.ainsel.kenzi.dev`)"
+        "--label"
+        "traefik.http.routers.minio.service=minio"
+      ];
+      image = "minio/minio:RELEASE.2022-04-09T15-09-52Z";
+      volumes = [ "/storage/minio/data:/data" ];
+    };
     traefik = {
       autoStart = true;
       environmentFiles =
