@@ -63,9 +63,16 @@
     users.root = import ../../home/home-linux-server.nix;
   };
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    passwordAuthentication = false;
+    permitRootLogin = "no";
+    challengeResponseAuthentication = false;
+  };
 
-  networking.firewall.enable = false;
+  networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 22 51820 ];
+  networking.firewall.allowedUDPPorts = [ 22 51820 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
