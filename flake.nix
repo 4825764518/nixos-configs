@@ -108,6 +108,16 @@
         };
       };
       deploy.nodes = {
+        ainsel = {
+          autoRollback = true;
+          hostname = "ainsel";
+          profiles.system = {
+            sshUser = "dragonkin";
+            user = "root";
+            path = deploy-rs-stable.lib.x86_64-linux.activate.nixos
+              self.nixosConfigurations.ainsel;
+          };
+        };
         firelink = {
           autoRollback = true;
           fastConnection = true;

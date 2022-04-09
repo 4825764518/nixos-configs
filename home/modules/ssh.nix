@@ -11,6 +11,10 @@ in {
       "192.168.169.*,192.168.171.*,192.99.14.203,51.222.128.114" =
         defaultTrustedOptions;
 
+      "ainsel" = defaultTrustedOptions // {
+        hostname = "65.21.233.174";
+        user = "dragonkin";
+      };
       "firelink" = defaultTrustedOptions // {
         hostname = "192.168.169.11";
         user = "shrinekeeper";
