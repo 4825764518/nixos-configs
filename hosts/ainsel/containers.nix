@@ -9,20 +9,8 @@ let
           tls = {
             certResolver = "le";
             domains = [{
-              main = "kenzi.dev";
-              sans = [ "*.kenzi.dev" ];
-            }];
-          };
-        };
-      };
-      wgsecure = {
-        address = ":4443";
-        http = {
-          tls = {
-            certResolver = "le";
-            domains = [{
-              main = "leyndell.kenzi.dev";
-              sans = [ "*.leyndell.kenzi.dev" ];
+              main = "ainsel.kenzi.dev";
+              sans = [ "*.ainsel.kenzi.dev" ];
             }];
           };
         };
@@ -66,20 +54,14 @@ in {
       '';
   };
 
-  sops.secrets.leyndell-synapse-postgres-environment = {
-    sopsFile = ../../secrets/leyndell/containers.yaml;
-  };
-  sops.secrets.leyndell-synapse-environment = {
-    sopsFile = ../../secrets/leyndell/containers.yaml;
-  };
-  sops.secrets.leyndell-traefik-environment = {
-    sopsFile = ../../secrets/leyndell/containers.yaml;
+  sops.secrets.ainsel-traefik-environment = {
+    sopsFile = ../../secrets/ainsel/containers.yaml;
   };
   virtualisation.oci-containers.containers = {
     traefik = {
       autoStart = true;
       environmentFiles =
-        [ "${config.sops.secrets.leyndell-traefik-environment.path}" ];
+        [ "${config.sops.secrets.ainsel-traefik-environment.path}" ];
       extraOptions = [
         "--network=traefik-rproxy"
         "--label"
@@ -88,40 +70,12 @@ in {
         "traefik.http.routers.traefik.service=api@internal"
       ];
       image = "traefik:v2.6.1";
-      ports = [ "65.108.197.14:443:443" "192.168.172.10:443:4443" ];
+      ports = [ "192.168.172.20:443:443" ];
       volumes = [
         "${traefikStaticConfigPath}:/traefik.yml:ro"
         "/opt/containers/traefik/acme.json:/acme.json"
         "/var/run/docker.sock:/var/run/docker.sock"
       ];
-    };
-    synapse-postgres = {
-      autoStart = true;
-      environmentFiles =
-        [ "${config.sops.secrets.leyndell-synapse-postgres-environment.path}" ];
-      extraOptions = [ "--network=traefik-rproxy" ];
-      image = "postgres:14";
-      volumes =
-        [ "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data" ];
-    };
-    synapse = {
-      autoStart = true;
-      dependsOn = [ "synapse-postgres" ];
-      environmentFiles =
-        [ "${config.sops.secrets.leyndell-synapse-environment.path}" ];
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.services.synapse.loadbalancer.server.port=8008"
-        "--label"
-        "traefik.http.routers.synapse.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.synapse.rule=Host(`matrix.kenzi.dev`)"
-      ];
-      volumes = [ "/opt/containers/synapse/files:/data" ];
-      image = "matrixdotorg/synapse:v1.56.0";
     };
     whoami = {
       autoStart = true;
@@ -130,9 +84,9 @@ in {
         "--label"
         "traefik.enable=true"
         "--label"
-        "traefik.http.routers.whoami.entryPoints=wgsecure"
+        "traefik.http.routers.whoami.entryPoints=websecure"
         "--label"
-        "traefik.http.routers.whoami.rule=Host(`whoami.leyndell.kenzi.dev`)"
+        "traefik.http.routers.whoami.rule=Host(`whoami.ainsel.kenzi.dev`)"
       ];
       image = "traefik/whoami:v1.7.1";
     };
