@@ -100,7 +100,7 @@ in {
       environmentFiles =
         [ "${config.sops.secrets.leyndell-synapse-postgres-environment.path}" ];
       extraOptions = [ "--network=traefik-rproxy" ];
-      image = "postgres:12";
+      image = "postgres:14";
       volumes =
         [ "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data" ];
     };
