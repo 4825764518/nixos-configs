@@ -120,6 +120,12 @@
   sops.secrets.stormveil-restic-b2-password = {
     sopsFile = ../../secrets/stormveil/passwords.yaml;
   };
+  sops.secrets.stormveil-restic-ainsel-s3-environment = {
+    sopsFile = ../../secrets/stormveil/passwords.yaml;
+  };
+  sops.secrets.stormveil-restic-ainsel-s3-password = {
+    sopsFile = ../../secrets/stormveil/passwords.yaml;
+  };
   services.restic.backups = {
     lanBackup = {
       initialize = true;
@@ -156,6 +162,30 @@
       ];
       extraOptions = [ "verbose=1" ];
       repository = "b2:restic-stormveil:/";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+    ainselBackup = {
+      environmentFile =
+        "${config.sops.secrets.stormveil-restic-ainsel-s3-environment.path}";
+      initialize = true;
+      passwordFile =
+        "${config.sops.secrets.stormveil-restic-ainsel-s3-password.path}";
+      paths = [ "/home" "/root" ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 100"
+      ];
+      extraBackupArgs = [
+        ''--exclude="/home/kenzie/.local/share/containers"''
+        ''--exclude="/home/kenzie/.local/share/Steam"''
+        ''--exclude="/home/kenzie/.config/Element/Cache"''
+        ''--exclude="/home/kenzie/.var/app/com.valvesoftware.Steam"''
+        ''--exclude="/home/kenzie/.cache"''
+      ];
+      extraOptions = [ "verbose=1" ];
+      repository = "s3:https://s3.ainsel.kenzi.dev/stormveil-backups";
       timerConfig = { OnCalendar = "daily"; };
     };
   };
