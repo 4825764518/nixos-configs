@@ -56,53 +56,10 @@ in {
       '';
   };
 
-  sops.secrets.firelink-firefly-environment = {
-    sopsFile = ../../secrets/firelink/containers.yaml;
-  };
-  sops.secrets.firelink-firefly-importer-environment = {
-    sopsFile = ../../secrets/firelink/containers.yaml;
-  };
-  sops.secrets.firelink-firefly-postgres-environment = {
-    sopsFile = ../../secrets/firelink/containers.yaml;
-  };
   sops.secrets.firelink-traefik-environment = {
     sopsFile = ../../secrets/firelink/containers.yaml;
   };
   virtualisation.oci-containers.containers = {
-    firefly = {
-      autoStart = true;
-      environmentFiles =
-        [ "${config.sops.secrets.firelink-firefly-environment.path}" ];
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.firefly.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.firefly.rule=Host(`firefly.lan.kenzi.dev`)"
-        "--label"
-        "traefik.http.services.firefly.loadbalancer.server.port=8080"
-      ];
-      image = "fireflyiii/core:version-5.6.16";
-      volumes = [ "/opt/firefly/upload:/var/www/html/storage/upload" ];
-    };
-    firefly-importer = {
-      autoStart = true;
-      environmentFiles =
-        [ "${config.sops.secrets.firelink-firefly-importer-environment.path}" ];
-      extraOptions = [ "--network=traefik-rproxy" ];
-      image = "fireflyiii/data-importer:version-0.9.0";
-      ports = [ "192.168.169.11:8081:8080" ];
-    };
-    firefly-postgres = {
-      autoStart = true;
-      environmentFiles =
-        [ "${config.sops.secrets.firelink-firefly-postgres-environment.path}" ];
-      extraOptions = [ "--network=traefik-rproxy" ];
-      image = "postgres:14.2";
-      volumes = [ "/opt/postgres/data:/var/lib/postgresql/data" ];
-    };
     jackett = {
       autoStart = true;
       environment = {
