@@ -17,7 +17,7 @@ in {
         flameshot
         gimp
         inkscape-with-extensions
-        jellyfin-mpv-shim
+        jellyfin-media-player
         mpv
         obs-studio
         spotify
