@@ -85,6 +85,67 @@ in {
       image = "minio/minio:RELEASE.2022-04-09T15-09-52Z";
       volumes = [ "/storage/minio/data:/data" ];
     };
+    qbittorrent = {
+      autoStart = true;
+      dependsOn = [ "torrent-proxy" ];
+      environment = {
+        PUID = "2000";
+        PGID = "2000";
+        WEBUI_PORT = "8082";
+      };
+      extraOptions = containerHelpers.containerLabels {
+        name = "qbittorrent";
+        port = 8082;
+      };
+      image = "ghcr.io/linuxserver/qbittorrent:4.4.1";
+      ports = [ "65.21.233.174:23843:23843" ];
+      volumes = [
+        "/storage/containers/qbittorrent/config:/config"
+        "/storage/downloads:/downloads"
+      ];
+    };
+    qbtsync = {
+      autoStart = true;
+      dependsOn = [ "qbittorrent" ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "qbtsync";
+        port = 8080;
+      };
+      image = "qbtsync:latest";
+      volumes = [
+        "/storage/containers/qbtsync/config.toml:/config.toml"
+        "/storage/containers/qbittorrent/config/qBittorrent/BT_backup:/torrents"
+      ];
+    };
+    syncthing = {
+      autoStart = true;
+      environment = {
+        PUID = "2000";
+        PGID = "2000";
+      };
+      extraOptions = containerHelpers.containerLabels {
+        name = "syncthing";
+        port = 8384;
+      };
+      image = "ghcr.io/linuxserver/syncthing:1.19.1";
+      ports = [ "192.168.172.20:22000:22000" ];
+      volumes = [
+        "/storage/containers/syncthing/config:/config"
+        "/storage/downloads/staging:/staging"
+      ];
+    };
+    torrent-proxy = {
+      autoStart = true;
+      extraOptions = containerHelpers.containerLabels {
+        name = "torrent-proxy";
+        hostname = "tproxy";
+      };
+      image = "torrent-proxy:latest";
+      volumes = [
+        "/storage/containers/torrent-proxy/config.json:/app/config.json"
+        "/storage/containers/torrent-proxy/db:/app/db"
+      ];
+    };
     traefik = {
       autoStart = true;
       environmentFiles =

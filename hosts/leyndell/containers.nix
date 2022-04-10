@@ -121,7 +121,7 @@ in {
       dependsOn = [ "synapse-postgres" ];
       environmentFiles =
         [ "${config.sops.secrets.leyndell-synapse-environment.path}" ];
-      extraOptions = ontainerHelpers.containerLabels {
+      extraOptions = containerHelpers.containerLabels {
           name = "synapse";
           hostname = "matrix";
           port = 8008;

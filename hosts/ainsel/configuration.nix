@@ -44,12 +44,23 @@
   };
 
   users = {
+    groups.containers = {
+      gid = 2000;
+      members = [ "containers" ];
+    };
+
     users.dragonkin = {
       isNormalUser = true;
       home = "/home/dragonkin";
       extraGroups = [ "wheel" ];
       openssh.authorizedKeys.keyFiles = [ ../authorized-keys-common ];
       shell = pkgs.zsh;
+    };
+
+    users.containers = {
+      isSystemUser = true;
+      uid = 2000;
+      group = "containers";
     };
 
     users.root = {
@@ -75,9 +86,10 @@
   };
 
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 51820 ];
-  networking.firewall.allowedUDPPorts = [ 22 51820 ];
-  networking.firewall.interfaces.wg-internal.allowedTCPPorts = [ 443 ];
+  networking.firewall.allowedTCPPorts = [ 22 23843 51820 ];
+  networking.firewall.allowedUDPPorts = [ 22 23843 51820 ];
+  networking.firewall.interfaces.wg-internal.allowedTCPPorts = [ 443 22000 ];
+  networking.firewall.interfaces.wg-internal.allowedUDPPorts = [ 22000 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
