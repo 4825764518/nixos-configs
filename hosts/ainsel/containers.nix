@@ -134,6 +134,15 @@ in {
         "/storage/downloads/staging:/staging"
       ];
     };
+    thelounge = {
+      autoStart = true;
+      extraOptions = containerHelpers.containerLabels {
+        name = "thelounge";
+        hostname = "irc";
+      };
+      image = "thelounge/thelounge:4.3.0";
+      volumes = [ "/storage/containers/thelounge:/var/opt/thelounge" ];
+    };
     torrent-proxy = {
       autoStart = true;
       extraOptions = containerHelpers.containerLabels {
