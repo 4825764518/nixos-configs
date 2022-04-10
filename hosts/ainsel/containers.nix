@@ -1,6 +1,12 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
+  containerHelpers = import ../container-helpers.nix {
+    inherit lib;
+    domain = "ainsel.kenzi.dev";
+    entryPoint = "websecure";
+    network = "traefik-rproxy";
+  };
   traefikStaticConfigPath = builtins.toFile "traefik.yml" (builtins.toJSON {
     entryPoints = {
       websecure = {
@@ -66,27 +72,16 @@ in {
       cmd = [ "server" "/data" "--console-address" ":9001" ];
       environmentFiles =
         [ "${config.sops.secrets.ainsel-minio-environment.path}" ];
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.services.minio-api.loadbalancer.server.port=9000"
-        "--label"
-        "traefik.http.routers.minio-api.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.minio-api.rule=Host(`s3.ainsel.kenzi.dev`)"
-        "--label"
-        "traefik.http.routers.minio-api.service=minio-api"
-        "--label"
-        "traefik.http.services.minio.loadbalancer.server.port=9001"
-        "--label"
-        "traefik.http.routers.minio.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.minio.rule=Host(`minio.ainsel.kenzi.dev`)"
-        "--label"
-        "traefik.http.routers.minio.service=minio"
-      ];
+      extraOptions = [ "--network=traefik-rproxy" ]
+        ++ containerHelpers.traefikLabels {
+          name = "s3";
+          port = 9000;
+          service = true;
+        } ++ containerHelpers.traefikLabels {
+          name = "minio";
+          port = 9001;
+          service = true;
+        };
       image = "minio/minio:RELEASE.2022-04-09T15-09-52Z";
       volumes = [ "/storage/minio/data:/data" ];
     };
@@ -111,15 +106,7 @@ in {
     };
     whoami = {
       autoStart = true;
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.whoami.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.whoami.rule=Host(`whoami.ainsel.kenzi.dev`)"
-      ];
+      extraOptions = containerHelpers.containerLabelsSimple "whoami";
       image = "traefik/whoami:v1.7.1";
     };
   };

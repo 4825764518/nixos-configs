@@ -1,6 +1,18 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
+  containerHelpers = import ../container-helpers.nix {
+    inherit lib;
+    domain = "kenzi.dev";
+    entryPoint = "websecure";
+    network = "traefik-rproxy";
+  };
+  containerHelpersWireguard = import ../container-helpers.nix {
+    inherit lib;
+    domain = "leyndell.kenzi.dev";
+    entryPoint = "wgsecure";
+    network = "traefik-rproxy";
+  };
   traefikStaticConfigPath = builtins.toFile "traefik.yml" (builtins.toJSON {
     entryPoints = {
       websecure = {
@@ -109,31 +121,17 @@ in {
       dependsOn = [ "synapse-postgres" ];
       environmentFiles =
         [ "${config.sops.secrets.leyndell-synapse-environment.path}" ];
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.services.synapse.loadbalancer.server.port=8008"
-        "--label"
-        "traefik.http.routers.synapse.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.synapse.rule=Host(`matrix.kenzi.dev`)"
-      ];
+      extraOptions = ontainerHelpers.containerLabels {
+          name = "synapse";
+          hostname = "matrix";
+          port = 8008;
+        };
       volumes = [ "/opt/containers/synapse/files:/data" ];
       image = "matrixdotorg/synapse:v1.56.0";
     };
     whoami = {
       autoStart = true;
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.whoami.entryPoints=wgsecure"
-        "--label"
-        "traefik.http.routers.whoami.rule=Host(`whoami.leyndell.kenzi.dev`)"
-      ];
+      extraOptions = containerHelpersWireguard.containerLabelsSimple "whoami";
       image = "traefik/whoami:v1.7.1";
     };
   };

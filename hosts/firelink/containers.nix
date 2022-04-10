@@ -1,6 +1,12 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
+  containerHelpers = import ../container-helpers.nix {
+    inherit lib;
+    domain = "lan.kenzi.dev";
+    entryPoint = "websecure";
+    network = "traefik-rproxy";
+  };
   traefikStaticConfigPath = builtins.toFile "traefik.yml" (builtins.toJSON {
     entryPoints = {
       websecure = {
@@ -66,17 +72,10 @@ in {
         PUID = "1000";
         PGID = "1000";
       };
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.jackett.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.jackett.rule=Host(`jackett.lan.kenzi.dev`)"
-        "--label"
-        "traefik.http.services.jackett.loadbalancer.server.port=9117"
-      ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "jackett";
+        port = 9117;
+      };
       image = "ghcr.io/linuxserver/jackett:0.20.736";
       volumes = [
         "/opt/jackett:/config"
@@ -85,15 +84,7 @@ in {
     };
     jellyfin = {
       autoStart = true;
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.jellyfin.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.jellyfin.rule=Host(`jellyfin.lan.kenzi.dev`)"
-      ];
+      extraOptions = containerHelpers.containerLabelsSimple "jellyfin";
       image = "jellyfin/jellyfin:10.7.7";
       ports = [ "192.168.169.11:8096:8096" ];
       volumes = [
@@ -129,17 +120,10 @@ in {
         PGID = "1000";
         WEBUI_PORT = "8082";
       };
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.qbittorrent.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.qbittorrent.rule=Host(`qbittorrent.lan.kenzi.dev`)"
-        "--label"
-        "traefik.http.services.qbittorrent.loadbalancer.server.port=8082"
-      ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "qbittorrent";
+        port = 8082;
+      };
       image = "ghcr.io/linuxserver/qbittorrent:4.4.1";
       ports = [ "192.168.169.11:40744:40744" ];
       volumes = [
@@ -160,17 +144,10 @@ in {
         PUID = "1000";
         PGID = "1000";
       };
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.radarr.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.radarr.rule=Host(`radarr.lan.kenzi.dev`)"
-        "--label"
-        "traefik.http.services.radarr.loadbalancer.server.port=7878"
-      ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "radarr";
+        port = 7878;
+      };
       image = "ghcr.io/linuxserver/radarr:4.0.5";
       volumes = [
         "/opt/radarr:/config"
@@ -184,17 +161,10 @@ in {
         PUID = "1000";
         PGID = "1000";
       };
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.sonarr.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.sonarr.rule=Host(`sonarr.lan.kenzi.dev`)"
-        "--label"
-        "traefik.http.services.sonarr.loadbalancer.server.port=8989"
-      ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "sonarr";
+        port = 8989;
+      };
       image = "ghcr.io/linuxserver/sonarr:3.0.7";
       volumes = [
         "/opt/sonarr:/config"
@@ -208,17 +178,10 @@ in {
         PUID = "1000";
         PGID = "1000";
       };
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.syncthing.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.syncthing.rule=Host(`syncthing.lan.kenzi.dev`)"
-        "--label"
-        "traefik.http.services.syncthing.loadbalancer.server.port=8384"
-      ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "syncthing";
+        port = 8384;
+      };
       image = "ghcr.io/linuxserver/syncthing:1.19.1";
       ports = [ "22000:22000" ];
       volumes = [
@@ -228,29 +191,16 @@ in {
     };
     vaultwarden = {
       autoStart = true;
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.vaultwarden.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.vaultwarden.rule=Host(`bitwarden.lan.kenzi.dev`)"
-      ];
+      extraOptions = containerHelpers.containerLabels {
+        name = "vaultwarden";
+        hostname = "bitwarden";
+      };
       image = "vaultwarden/server:1.24.0";
       volumes = [ "/opt/vaultwarden:/data" ];
     };
     whoami = {
       autoStart = true;
-      extraOptions = [
-        "--network=traefik-rproxy"
-        "--label"
-        "traefik.enable=true"
-        "--label"
-        "traefik.http.routers.whoami.entryPoints=websecure"
-        "--label"
-        "traefik.http.routers.whoami.rule=Host(`whoami.lan.kenzi.dev`)"
-      ];
+      extraOptions = containerHelpers.containerLabelsSimple "whoami";
       image = "traefik/whoami:v1.7.1";
     };
   };
