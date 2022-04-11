@@ -97,7 +97,10 @@ in {
         name = "qbittorrent";
         port = 8082;
       };
-      image = "ghcr.io/linuxserver/qbittorrent:4.4.1";
+      # Downgraded from 4.4.1 due to 
+      # https://github.com/qbittorrent/qBittorrent/issues/16095
+      # Tracker information being wiped out by torrents saved into BT_Backup breaks qbtsync
+      image = "ghcr.io/linuxserver/qbittorrent:14.3.9";
       ports = [ "65.21.233.174:23843:23843" ];
       volumes = [
         "/storage/containers/qbittorrent/config:/config"
