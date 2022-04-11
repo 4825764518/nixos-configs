@@ -155,6 +155,23 @@ in {
         "/hangar/torrent-downloads/movies:/downloads/staging"
       ];
     };
+    readarr = {
+      autoStart = true;
+      environment = {
+        PUID = "1000";
+        PGID = "1000";
+      };
+      extraOptions = containerHelpers.containerLabels {
+        name = "readarr";
+        port = 8787;
+      };
+      image = "ghcr.io/linuxserver/readarr:develop-version-0.1.0.1248";
+      volumes = [
+        "/opt/readarr:/config"
+        "/hangar:/hangar"
+        "/hangar/torrent-downloads/ebooks-readarr:/downloads/staging"
+      ];
+    };
     sonarr = {
       autoStart = true;
       environment = {
