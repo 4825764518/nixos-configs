@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [ # Include the results of the hardware scan.
@@ -33,42 +33,21 @@
         prefixLength = 24;
       }];
     };
-    wireguard.interfaces = {
-      wg-internal = {
-        ips = [ "192.168.171.11/24" ];
-        listenPort = 51820;
-        privateKeyFile =
-          "${config.sops.secrets.firelink-wireguard-privkey.path}";
-        peers = [
-          {
-            # ovh
-            publicKey = "Mo1wqAe5SNixIikRSlVY9DpT5Nz19mZenWym3voa0TM=";
-            allowedIPs = [ "192.168.170.0/24" ];
-            endpoint = "192.99.14.203:51820";
-            persistentKeepalive = 25;
-          }
-          {
-            # morne
-            publicKey = "+y5ZjN6GToEbF3fwRnwJJH+tDZsgEvsJXoKyno0SfVg=";
-            allowedIPs = [
-              "192.168.171.0/24"
-              "192.168.172.10/32"
-              "10.67.238.34/32"
-              "10.64.57.118/32"
-            ];
-            endpoint = "51.222.128.114:51820";
-            persistentKeepalive = 25;
-          }
-          {
-            # ainsel
-            publicKey = "eY/49qo0cPnTAw6Kl0AwlGE/jU+jrkdCNHXVtSNvfn0=";
-            allowedIPs = [ "192.168.172.20/32" ];
-            endpoint = "65.21.233.174:51820";
-            persistentKeepalive = 25;
-          }
-        ];
+    wireguard.interfaces =
+      let wireguardPeers = import ../wireguard-peers.nix { inherit lib; useIpv6 = false; };
+      in {
+        wg-internal = {
+          ips = [ "192.168.171.11/24" ];
+          listenPort = 51820;
+          privateKeyFile =
+            "${config.sops.secrets.firelink-wireguard-privkey.path}";
+          peers = [
+            wireguardPeers.serverPeers.ainselPeer
+            (wireguardPeers.serverPeers.mornePeer false)
+            wireguardPeers.serverPeers.ovhPeer
+          ];
+        };
       };
-    };
 
     defaultGateway = "192.168.169.1";
     nameservers = [ "192.168.169.1" ];

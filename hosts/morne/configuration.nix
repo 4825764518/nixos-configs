@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [ ../linux-common.nix ./hardware-configuration.nix ];
@@ -41,7 +41,7 @@
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
 
     wireguard.interfaces =
-      let commonPeers = import ../wireguard-peers-common.nix { };
+      let wireguardPeers = import ../wireguard-peers.nix { inherit lib; };
       in {
         wg-internal = {
           ips = [ "192.168.171.1/24" ];
@@ -49,28 +49,16 @@
           privateKeyFile =
             "${config.sops.secrets.morne-wireguard-privkey.path}";
           peers = [
-            {
-              # ovh
-              publicKey = "Mo1wqAe5SNixIikRSlVY9DpT5Nz19mZenWym3voa0TM=";
-              allowedIPs = [ "192.168.170.0/24" ];
-              endpoint = "192.99.14.203:51820";
-              persistentKeepalive = 25;
-            }
-            {
-              # leyndell
-              publicKey = "+YVWahC4Rd7CZyWyaxYO1iyvOoFV4yUK4OfXWSbF+Ac=";
-              allowedIPs = [ "192.168.172.10/32" ];
-              endpoint = "65.108.197.14:51820";
-              persistentKeepalive = 25;
-            }
-            {
-              # ainsel
-              publicKey = "eY/49qo0cPnTAw6Kl0AwlGE/jU+jrkdCNHXVtSNvfn0=";
-              allowedIPs = [ "192.168.172.20/32" ];
-              endpoint = "65.21.233.174:51820";
-              persistentKeepalive = 25;
-            }
-          ] ++ commonPeers;
+            wireguardPeers.clientPeers.firelinkPeer
+            wireguardPeers.clientPeers.kilnPeer
+            wireguardPeers.clientPeers.stormveilPeer
+            wireguardPeers.clientPeers.interloperPeer
+            wireguardPeers.clientPeers.iphonePeer
+
+            wireguardPeers.serverPeers.ainselPeer
+            wireguardPeers.serverPeers.leyndellPeer
+            wireguardPeers.serverPeers.ovhPeer
+          ];
         };
       };
   };
