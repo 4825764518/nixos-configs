@@ -25,10 +25,18 @@
           address = "65.108.197.14";
           prefixLength = 26;
         }];
+        ipv6.addresses = [{
+          address = "2a01:4f9:1a:991f::1";
+          prefixLength = 64;
+        }];
       };
     };
 
     defaultGateway = "65.108.197.1";
+    defaultGateway6 = {
+      address = "fe80::1";
+      interface = "enp35s0";
+    };
     nameservers = [ "1.1.1.1" ];
   };
 
