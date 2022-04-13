@@ -98,6 +98,32 @@
   networking.firewall.allowedTCPPorts = [ 22 443 51820 ];
   networking.firewall.allowedUDPPorts = [ 22 51820 ];
 
+  sops.secrets.leyndell-restic-ainsel-s3-environment = {
+    sopsFile = ../../secrets/leyndell/passwords.yaml;
+  };
+  sops.secrets.leyndell-restic-ainsel-s3-password = {
+    sopsFile = ../../secrets/leyndell/passwords.yaml;
+  };
+  services.restic.backups = {
+    ainselBackup = {
+      environmentFile =
+        "${config.sops.secrets.leyndell-restic-ainsel-s3-environment.path}";
+      initialize = true;
+      passwordFile =
+        "${config.sops.secrets.leyndell-restic-ainsel-s3-password.path}";
+      paths = [ "/home" "/root" "/opt/containers/synapse" ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 100"
+      ];
+      extraOptions = [ "verbose=1" ];
+      repository = "s3:https://s3.ainsel.kenzi.dev/leyndell-backups";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

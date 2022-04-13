@@ -78,6 +78,9 @@ in {
       '';
   };
 
+  sops.secrets.leyndell-synapse-postgres-backup-environment = {
+    sopsFile = ../../secrets/leyndell/containers.yaml;
+  };
   sops.secrets.leyndell-synapse-postgres-environment = {
     sopsFile = ../../secrets/leyndell/containers.yaml;
   };
@@ -116,16 +119,25 @@ in {
       volumes =
         [ "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data" ];
     };
+    synapse-postgres-backup = {
+      autoStart = true;
+      dependsOn = [ "synapse-postgres" ];
+      environmentFiles = [
+        "${config.sops.secrets.leyndell-synapse-postgres-backup-environment.path}"
+      ];
+      extraOptions = [ "--network=traefik-rproxy" ];
+      image = "eeshugerman/postgres-backup-s3:14";
+    };
     synapse = {
       autoStart = true;
       dependsOn = [ "synapse-postgres" ];
       environmentFiles =
         [ "${config.sops.secrets.leyndell-synapse-environment.path}" ];
       extraOptions = containerHelpers.containerLabels {
-          name = "synapse";
-          hostname = "matrix";
-          port = 8008;
-        };
+        name = "synapse";
+        hostname = "matrix";
+        port = 8008;
+      };
       volumes = [ "/opt/containers/synapse/files:/data" ];
       image = "matrixdotorg/synapse:v1.56.0";
     };
