@@ -13,6 +13,11 @@
   };
   networking = {
     defaultGateway = "192.99.14.254";
+    defaultGateway6 = {
+      address = "2607:5300:60:3fff:ff:ff:ff:ff";
+      interface = "enp1s0";
+    };
+
     useDHCP = false;
 
     interfaces.enp1s0 = {
@@ -26,6 +31,10 @@
         prefixLength = 32;
         via = "0.0.0.0";
         options = { scope = "link"; };
+      }];
+      ipv6.addresses = [{
+        address = "2607:5300:60:3fcb::2";
+        prefixLength = 64;
       }];
     };
 
