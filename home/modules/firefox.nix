@@ -1,4 +1,4 @@
-{ lib, pkgs, intelPkgs, ... }:
+{ lib, pkgs, intelPkgs, pkgsStable, ... }:
 
 let inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 in {
@@ -36,8 +36,6 @@ in {
           "privacy.trackingprotection.cryptomining.enabled" = true;
           # Enhanced Tracking Protection → Custom → Fingerprinters.
           "privacy.trackingprotection.fingerprinting.enabled" = true;
-          # Send websites a "Do Not Track" signal that you don't want to be tracked → Always.
-          "privacy.donottrackheader.enabled" = true;
 
           # Forms and Autofill.
           "extensions.formautofill.addresses.enabled" = false;
@@ -66,6 +64,7 @@ in {
           # Google's ability to monitor your web traffic for malware, storing
           # the sites you visit).
           "browser.safebrowsing.malware.enabled" = false;
+          "browser.safebrowsing.phishing.enabled" = false;
 
           # HTTPS-Only Mode → Enable HTTPS-Only Mode in all windows.
           "dom.security.https_only_mode" = true;
@@ -123,11 +122,6 @@ in {
           "services.sync.prefs.sync.browser.newtabpage.activity-stream.section.highlights.includePocket" =
             false;
 
-          # I believe this makes Firefox display a prompt when a site tries to
-          # access the Canvas API. I imagine this also employs other
-          # aggressive fingerprint resistance techniques.
-          "privacy.resistFingerprinting" = true;
-
           # According to Bugzilla, this is only used for feature detection in
           # JS-land of whether or not Form Autofill is available:
           # https://bugzilla.mozilla.org/show_bug.cgi?id=1386120.
@@ -147,13 +141,40 @@ in {
           "media.peerconnection.video.enabled" = false;
           "media.navigator.enabled" = false;
 
-          # Disable WebGL to resist fingerprinting.
-          # https://browserleaks.com/webgl
-          "webgl.disabled" = true;
-
           # Disable the Geolocation API to resist fingerprinting.
           # https://browserleaks.com/geo
           "geo.enabled" = false;
+
+          # Disable mozilla's screenshot service
+          "extensions.screenshots.disabled" = true;
+
+          # Disable mozilla's account service
+          "identity.fxaccounts.enabled" = false;
+
+          # Temporary workaround for nixpkgs issue #167785
+          "security.sandbox.content.level" = 3;
+
+          # These options break or reduce performance on many websites.
+          "privacy.resistFingerprinting" = false;
+          "webgl.disabled" = false;
+          "privacy.donottrackheader.enabled" = false;
+
+          # Disable period requests to tracking services to detect captive portal logins
+          "network.captive-portal-service.enabled" = false;
+
+          # Enable codegen for AVX/AVX2 supporting CPUs in webassembly jit
+          "javascript.options.wasm_simd_avx" = true;
+
+          # Prevent punycode phishing attacks
+          "network.IDN_show_punycode" = true;
+
+          # Slow down session saves from the default 15s to 120s.
+          "browser.sessionstore.interval" = 120000;
+
+          # Darken page and highlight found text when searching pages.
+          "findbar.modalHighlight" = true;
+          # Enable "Highlight All" in find UI by default
+          "findbar.highlightAll" = true;
         };
       in {
         default = {
