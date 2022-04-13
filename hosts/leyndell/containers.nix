@@ -117,16 +117,7 @@ in {
       extraOptions = [ "--network=traefik-rproxy" ];
       image = "postgres:14";
       volumes =
-        [ "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data" ];
-    };
-    synapse-postgres-backup = {
-      autoStart = true;
-      dependsOn = [ "synapse-postgres" ];
-      environmentFiles = [
-        "${config.sops.secrets.leyndell-synapse-postgres-backup-environment.path}"
-      ];
-      extraOptions = [ "--network=traefik-rproxy" ];
-      image = "eeshugerman/postgres-backup-s3:14";
+        [ "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data" "/opt/containers/synapse-postgres/dump:/dump" ];
     };
     synapse = {
       autoStart = true;
