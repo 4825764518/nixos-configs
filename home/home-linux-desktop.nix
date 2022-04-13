@@ -5,8 +5,6 @@ with lib;
 {
   imports = [
     ./home.nix
-    ./modules/shell.nix
-    ./modules/terminal.nix
 
     ./modules/apps/development.nix
     ./modules/apps/games.nix

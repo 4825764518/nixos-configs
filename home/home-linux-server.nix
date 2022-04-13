@@ -3,7 +3,7 @@
 with lib;
 
 {
-  imports = [ ./home.nix ./modules/shell.nix ];
+  imports = [ ./home.nix ];
 
   config = {
     profiles.home.enable = true;

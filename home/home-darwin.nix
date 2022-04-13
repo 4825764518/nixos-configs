@@ -4,8 +4,6 @@
   imports = [
     ./home.nix
     ./modules/darwin.nix
-    ./modules/shell.nix
-    ./modules/terminal.nix
 
     ./modules/apps/development.nix
     ./modules/apps/media.nix

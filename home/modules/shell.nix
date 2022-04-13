@@ -52,6 +52,11 @@ in {
           };
         }
       ];
+
+      shellAliases = lib.optionalAttrs
+        (homeCfg.terminal.enable && homeCfg.terminal.backend == "kitty") {
+          ssh = "kitty +kitten ssh";
+        };
     };
   };
 }
