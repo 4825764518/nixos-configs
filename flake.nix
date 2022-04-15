@@ -18,7 +18,6 @@
   outputs = { self, nixpkgs, nixos, nixos-small, nixos-stable, nix-darwin
     , home-manager, sops-nix, deploy-rs, deploy-rs-stable }:
     let
-      darwinOverlay = import ./overlay-darwin.nix;
       pkgsNonfree-linux-x64 = import nixos {
         system = "x86_64-linux";
         config.allowUnfree = true;
@@ -36,7 +35,6 @@
       pkgsNonfree-darwin-aarch64 = import nixpkgs {
         system = "aarch64-darwin";
         config.allowUnfree = true;
-        overlays = [ darwinOverlay ];
       };
     in {
       devShell.x86_64-linux =
