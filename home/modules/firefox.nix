@@ -159,7 +159,7 @@ in {
           "webgl.disabled" = false;
           "privacy.donottrackheader.enabled" = false;
 
-          # Disable period requests to tracking services to detect captive portal logins
+          # Disable periodic requests to tracking services to detect captive portal logins
           "network.captive-portal-service.enabled" = false;
 
           # Enable codegen for AVX/AVX2 supporting CPUs in webassembly jit
