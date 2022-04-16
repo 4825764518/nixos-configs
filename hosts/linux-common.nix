@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../apps/common.nix ../apps/nix.nix ];
+  imports = [ ../apps/nix.nix ];
 
   boot.kernelParams =
     [ "zswap.enabled=1" "zswap.compressor=lz4" "zswap.zpool=zbud" ];
@@ -14,7 +14,12 @@
   environment.systemPackages = with pkgs; [
     btrfs-progs
     compsize
+    file
+    git
+    htop
+    screen
     smartmontools
+    wget
     xfsprogs
   ];
 

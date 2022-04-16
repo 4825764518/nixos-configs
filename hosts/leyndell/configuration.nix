@@ -12,6 +12,7 @@ let
 in {
   imports = [
     ../linux-common.nix
+    ../linux-common-amd.nix
     ./containers.nix
     ./hardware-configuration.nix
     ./wireguard.nix

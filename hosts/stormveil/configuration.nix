@@ -2,10 +2,13 @@
 
 {
   imports = [
+    ../linux-common-amd.nix
     ../linux-desktop-common.nix
     ./hardware-configuration.nix
     ./wireguard.nix
   ];
+
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   networking.hostName = "stormveil";
 
