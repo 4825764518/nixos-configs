@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   homebrew = {
-    brews = [ "wireguard-tools" ];
+    # TODO: manage python with nix once jellyfin-mpv-shim is fixed on darwin
+    brews = [ "python@3.9" "wireguard-tools" ];
     casks = [
       "altserver"
       "db-browser-for-sqlite"
@@ -17,6 +18,7 @@
       "jetbrains-toolbox"
       "keepassxc"
       "libreoffice"
+      "mpv"
       "postman"
       "raycast"
       "rectangle"

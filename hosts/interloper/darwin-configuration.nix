@@ -3,7 +3,6 @@
 {
   imports = [
     ../darwin-common.nix
-    ../../apps/common.nix
     ../../apps/homebrew.nix
     ../../apps/nix.nix
   ];
