@@ -2,12 +2,10 @@
 
 let
   postgresDumpScript = name: ''
-    rm -fv /opt/containers/synapse-postgres/dump/${name}/synapse-postgres-dump.sql.zst
+    rm -fv /opt/containers/synapse-postgres/dump/${name}/synapse-postgres-dump.sql*
     echo "Removed old dumps"
     ${config.virtualisation.docker.package}/bin/docker exec synapse-postgres pg_dumpall --username=synapse --file=/dump/${name}/synapse-postgres-dump.sql
-    echo "Finished postgres dump, compressing with zstd"
-    ${pkgs.zstd}/bin/zstd --compress -9 --rm --threads=0 /opt/containers/synapse-postgres/dump/${name}/synapse-postgres-dump.sql 
-    echo "Finished compressing postgres dump"
+    echo "Finished postgres dump"
   '';
 in {
   imports = [
