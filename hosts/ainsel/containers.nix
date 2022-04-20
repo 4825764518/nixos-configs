@@ -143,7 +143,7 @@ in {
         name = "thelounge";
         hostname = "irc";
       };
-      image = "thelounge/thelounge:4.3.0";
+      image = "thelounge/thelounge:4.3.1";
       volumes = [ "/storage/containers/thelounge:/var/opt/thelounge" ];
     };
     torrent-proxy = {
