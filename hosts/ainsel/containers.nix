@@ -83,7 +83,7 @@ in {
           service = true;
         };
       image = "minio/minio:RELEASE.2022-04-09T15-09-52Z";
-      volumes = [ "/storage/minio/data:/data" ];
+      volumes = [ "/storage/containers/minio/data:/data" ];
     };
     qbittorrent = {
       autoStart = true;
