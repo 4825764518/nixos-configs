@@ -59,7 +59,7 @@ in {
         fi
       '';
   };
-
+  
   sops.secrets.ainsel-minio-environment = {
     sopsFile = ../../secrets/ainsel/containers.yaml;
   };
@@ -67,6 +67,36 @@ in {
     sopsFile = ../../secrets/ainsel/containers.yaml;
   };
   virtualisation.oci-containers.containers = {
+    gitlab = {
+      autoStart = true;
+      environment = {
+        GITLAB_OMNIBUS_CONFIG = ''
+          external_url 'https://gitlab.ainsel.kenzi.dev';
+          gitlab_rails['smtp_enable'] = false;
+          gitlab_rails['gitlab_email_enabled'] = false;
+          nginx['listen_port'] = 80;
+          nginx['listen_https'] = false;
+          nginx['proxy_set_headers'] = {
+            "X-Forwarded-Proto" => "https",
+            "X-Forwarded-Ssl" => "on",
+          };
+          nginx['real_ip_header'] = 'X-Real-Ip';
+          nginx['real_ip_recursive'] = 'on';
+        '';
+      };
+      extraOptions = [ "--network=traefik-rproxy" ]
+        ++ containerHelpers.traefikLabels {
+          name = "gitlab";
+          port = 80;
+        };
+      image = "gitlab/gitlab-ce:14.9.3-ce.0";
+      ports = [ "192.168.172.20:222:22" ];
+      volumes = [
+        "/storage/containers/gitlab/config:/etc/gitlab"
+        "/storage/containers/gitlab/logs:/var/log/gitlab"
+        "/storage/containers/gitlab/data:/var/opt/gitlab"
+      ];
+    };
     minio = {
       autoStart = true;
       cmd = [ "server" "/data" "--console-address" ":9001" ];
