@@ -94,6 +94,48 @@
     challengeResponseAuthentication = false;
   };
 
+  sops.secrets.ainsel-restic-b2-environment = {
+    sopsFile = ../../secrets/ainsel/passwords.yaml;
+  };
+  sops.secrets.ainsel-restic-b2-password = {
+    sopsFile = ../../secrets/ainsel/passwords.yaml;
+  };
+  services.restic.backups = {
+    b2Backup = {
+      environmentFile =
+        "${config.sops.secrets.ainsel-restic-b2-environment.path}";
+      initialize = true;
+      passwordFile = "${config.sops.secrets.ainsel-restic-b2-password.path}";
+      paths = [
+        "/home"
+        "/root"
+        "/storage/containers/gitlab/config"
+        "/storage/containers/gitlab/data/backups"
+        "/storage/containers/qbittorrent"
+        "/storage/containers/qbtsync"
+        "/storage/containers/syncthing"
+        "/storage/containers/thelounge"
+        "/storage/containers/torrent-proxy"
+      ];
+      pruneOpts = [
+        "--keep-daily 7"
+        "--keep-weekly 5"
+        "--keep-monthly 12"
+        "--keep-yearly 100"
+      ];
+      extraOptions = [ "verbose=1" ];
+      repository = "b2:restic-ainsel:/";
+      timerConfig = { OnCalendar = "daily"; };
+    };
+  };
+
+  systemd.services."restic-backups-b2Backup".preStart = ''
+    rm -fv /storage/containers/gitlab/data/backups/*
+    echo "Removed old dumps"
+    ${config.virtualisation.docker.package}/bin/docker exec gitlab gitlab-backup create BACKUP=dump GZIP_RSYNCABLE=yes
+    echo "Finished gitlab dump"
+  '';
+
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 443 22000 23843 51820 ];
   networking.firewall.allowedUDPPorts = [ 22 23843 51820 ];
