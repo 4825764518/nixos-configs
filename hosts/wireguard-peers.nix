@@ -31,6 +31,12 @@
       allowedIPs = [ "10.64.57.118/32" ];
       persistentKeepalive = 25;
     };
+
+    iphoneProPeer = {
+      publicKey = "sL3ePIYYuOLaWmN0xkDIftZTKhClXIO44Rszykp5gmU=";
+      allowedIPs = [ "10.64.73.186/32" ];
+      persistentKeepalive = 25;
+    };
   };
 
   serverPeers = {
@@ -56,6 +62,7 @@
         "192.168.171.0/24"
         "10.67.238.34/32"
         "10.64.57.118/32"
+        "10.64.73.186/32"
       ] ++ lib.optionals withHetznerRoutes [ "192.168.172.0/24" ];
       endpoint = if useIpv6 then
         "2607:5300:60:3fcb::2:51820"

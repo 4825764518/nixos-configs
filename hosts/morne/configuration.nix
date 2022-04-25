@@ -54,6 +54,7 @@
             wireguardPeers.clientPeers.stormveilPeer
             wireguardPeers.clientPeers.interloperPeer
             wireguardPeers.clientPeers.iphonePeer
+            wireguardPeers.clientPeers.iphoneProPeer
 
             wireguardPeers.serverPeers.ainselPeer
             wireguardPeers.serverPeers.leyndellPeer
