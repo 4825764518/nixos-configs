@@ -2,13 +2,13 @@
 
 let
   makeMullvadConfig = { publicKey, endpoint }: {
-    address = [ "10.64.180.86/32" ];
+    address = [ "10.64.180.86/32" "fc00:bbbb:bbbb:bb01::1:b455/128" ];
     privateKeyFile =
       "${config.sops.secrets.stormveil-wireguard-mullvad-privkey.path}";
     peers = [{
       inherit publicKey endpoint;
       persistentKeepalive = 25;
-      allowedIPs = [ "0.0.0.0/0" ];
+      allowedIPs = [ "0.0.0.0/0" "::0/0" ];
     }];
   };
 
