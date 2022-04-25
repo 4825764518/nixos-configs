@@ -11,6 +11,6 @@ in {
   };
 
   config = mkIf (homeCfg.enable && cfg.enable) {
-    home.packages = with pkgs; optionals isLinux [ discord element-desktop ];
+    home.packages = with pkgs; optionals isLinux [ discord element-desktop signal-desktop tdesktop ];
   };
 }
