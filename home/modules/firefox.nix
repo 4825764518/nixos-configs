@@ -158,10 +158,7 @@ in {
           "privacy.resistFingerprinting" = false;
           "webgl.disabled" = false;
           "privacy.donottrackheader.enabled" = false;
-
-          # Disable periodic requests to tracking services to detect captive portal logins
-          "network.captive-portal-service.enabled" = false;
-
+          
           # Enable codegen for AVX/AVX2 supporting CPUs in webassembly jit
           "javascript.options.wasm_simd_avx" = true;
 
