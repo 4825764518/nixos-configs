@@ -56,6 +56,12 @@ let
   });
 in {
   virtualisation.docker.enable = true;
+  virtualisation.docker.extraOptions = "--config-file=${
+      pkgs.writeText "daemon.json" (builtins.toJSON {
+        ipv6 = true;
+        fixed-cidr-v6 = "2a01:4f9:1a:991f::/80";
+      })
+    }";
 
   # https://www.breakds.org/post/declarative-docker-in-nixos/
   systemd.services.init-traefik-network = {
@@ -71,7 +77,7 @@ in {
         # crash the whole service.
         check=$(${dockercli} network ls | grep "traefik-rproxy" || true)
         if [ -z "$check" ]; then
-          ${dockercli} network create traefik-rproxy
+          ${dockercli} network create --ipv6 --subnet fd70:1c24:ed13::/48 traefik-rproxy
         else
           echo "traefik-rproxy already exists in docker"
         fi
@@ -103,7 +109,12 @@ in {
         "traefik.http.routers.traefik.service=api@internal"
       ];
       image = "traefik:v2.6.1";
-      ports = [ "65.108.197.14:443:443" "192.168.172.10:443:4443" ];
+      ports = [
+        "65.108.197.14:443:443"
+        "[2a01:4f9:1a:991f::]:443:443"
+        "192.168.172.10:443:4443"
+        "[fdc3:62d8:4c3a:0010::]:443:4443"
+      ];
       volumes = [
         "${traefikStaticConfigPath}:/traefik.yml:ro"
         "/opt/containers/traefik/acme.json:/acme.json"
@@ -116,8 +127,10 @@ in {
         [ "${config.sops.secrets.leyndell-synapse-postgres-environment.path}" ];
       extraOptions = [ "--network=traefik-rproxy" ];
       image = "postgres:14";
-      volumes =
-        [ "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data" "/opt/containers/synapse-postgres/dump:/dump" ];
+      volumes = [
+        "/opt/containers/synapse-postgres/data:/var/lib/postgresql/data"
+        "/opt/containers/synapse-postgres/dump:/dump"
+      ];
     };
     synapse = {
       autoStart = true;
