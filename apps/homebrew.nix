@@ -22,8 +22,10 @@
       "postman"
       "raycast"
       "rectangle"
+      "signal"
       "spotify"
       "steam"
+      "telegram"
       "temurin"
       "visual-studio-code"
     ];
