@@ -8,7 +8,7 @@ in {
     };
     networking.wireguard.interfaces = {
       wg-internal = {
-        ips = [ "192.168.172.20/24" ];
+        ips = [ "192.168.172.20/24" "fdc3:62d8:4c3a:0020::/64" ];
         listenPort = 51820;
         privateKeyFile = "${config.sops.secrets.ainsel-wireguard-privkey.path}";
         peers = [

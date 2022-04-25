@@ -23,7 +23,7 @@ in {
     };
     networking.wireguard.interfaces = {
       wg-internal = {
-        ips = [ "192.168.171.20/24" ];
+        ips = [ "192.168.171.20/24" "fd4e:acd2:410e:0020::/64" ];
         listenPort = 51820;
         privateKeyFile =
           "${config.sops.secrets.stormveil-wireguard-privkey.path}";

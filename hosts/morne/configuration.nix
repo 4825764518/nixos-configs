@@ -44,7 +44,7 @@
       let wireguardPeers = import ../wireguard-peers.nix { inherit lib; };
       in {
         wg-internal = {
-          ips = [ "192.168.171.1/24" ];
+          ips = [ "192.168.171.1/24" "fd9f:b343:6ef8:0001::/64" ];
           listenPort = 51820;
           privateKeyFile =
             "${config.sops.secrets.morne-wireguard-privkey.path}";

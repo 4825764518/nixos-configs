@@ -33,21 +33,24 @@
         prefixLength = 24;
       }];
     };
-    wireguard.interfaces =
-      let wireguardPeers = import ../wireguard-peers.nix { inherit lib; useIpv6 = false; };
-      in {
-        wg-internal = {
-          ips = [ "192.168.171.11/24" ];
-          listenPort = 51820;
-          privateKeyFile =
-            "${config.sops.secrets.firelink-wireguard-privkey.path}";
-          peers = [
-            wireguardPeers.serverPeers.ainselPeer
-            (wireguardPeers.serverPeers.mornePeer false)
-            wireguardPeers.serverPeers.ovhPeer
-          ];
-        };
+    wireguard.interfaces = let
+      wireguardPeers = import ../wireguard-peers.nix {
+        inherit lib;
+        useIpv6 = false;
       };
+    in {
+      wg-internal = {
+        ips = [ "192.168.171.11/24" "fd4e:acd2:410e:0011::/64" ];
+        listenPort = 51820;
+        privateKeyFile =
+          "${config.sops.secrets.firelink-wireguard-privkey.path}";
+        peers = [
+          wireguardPeers.serverPeers.ainselPeer
+          (wireguardPeers.serverPeers.mornePeer false)
+          wireguardPeers.serverPeers.ovhPeer
+        ];
+      };
+    };
 
     defaultGateway = "192.168.169.1";
     nameservers = [ "192.168.169.1" ];
