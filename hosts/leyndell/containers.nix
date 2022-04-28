@@ -44,8 +44,18 @@ let
         delayBeforeCheck = 15;
       };
     };
-    providers = { docker = { exposedByDefault = false; }; };
+    providers = {
+      docker = { exposedByDefault = false; };
+      file.filename = "/traefik-dynamic.yml";
+    };
   });
+  traefikDynamicConfigPath = builtins.toFile "traefik-dynamic.yml"
+    (builtins.toJSON {
+      tls.options.default = {
+        minVersion = "VersionTLS13";
+        sniStrict = true;
+      };
+    });
 in {
   virtualisation.docker.enable = true;
   virtualisation.docker.extraOptions = "--config-file=${
@@ -109,6 +119,7 @@ in {
       ];
       volumes = [
         "${traefikStaticConfigPath}:/traefik.yml:ro"
+        "${traefikDynamicConfigPath}:/traefik-dynamic.yml:ro"
         "/opt/containers/traefik/acme.json:/acme.json"
         "/var/run/docker.sock:/var/run/docker.sock"
       ];
