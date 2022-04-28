@@ -27,6 +27,7 @@
       "steam"
       "telegram"
       "temurin"
+      "thunderbird"
       "visual-studio-code"
     ];
     cleanup = "zap";
