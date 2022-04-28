@@ -8,30 +8,22 @@ let
     network = "traefik-rproxy";
   };
   traefikStaticConfigPath = builtins.toFile "traefik.yml" (builtins.toJSON {
-    entryPoints = {
-      websecure = {
-        address = ":443";
-        http = {
-          tls = {
-            certResolver = "le";
-            domains = [{
-              main = "ainsel.kenzi.dev";
-              sans = [ "*.ainsel.kenzi.dev" ];
-            }];
-          };
-        };
+    entryPoints.websecure = {
+      address = ":443";
+      http.tls = {
+        certResolver = "le";
+        domains = [{
+          main = "ainsel.kenzi.dev";
+          sans = [ "*.ainsel.kenzi.dev" ];
+        }];
       };
     };
-    certificatesResolvers = {
-      le = {
-        acme = {
-          email = "autismal69@protonmail.com";
-          storage = "acme.json";
-          dnsChallenge = {
-            provider = "cloudflare";
-            delayBeforeCheck = 15;
-          };
-        };
+    certificatesResolvers.le.acme = {
+      email = "admin@kenzi.dev";
+      storage = "acme.json";
+      dnsChallenge = {
+        provider = "cloudflare";
+        delayBeforeCheck = 15;
       };
     };
     providers = { docker = { exposedByDefault = false; }; };
@@ -59,7 +51,7 @@ in {
         fi
       '';
   };
-  
+
   sops.secrets.ainsel-minio-environment = {
     sopsFile = ../../secrets/ainsel/containers.yaml;
   };

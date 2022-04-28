@@ -17,39 +17,31 @@ let
     entryPoints = {
       websecure = {
         address = ":443";
-        http = {
-          tls = {
-            certResolver = "le";
-            domains = [{
-              main = "kenzi.dev";
-              sans = [ "*.kenzi.dev" ];
-            }];
-          };
+        http.tls = {
+          certResolver = "le";
+          domains = [{
+            main = "kenzi.dev";
+            sans = [ "*.kenzi.dev" ];
+          }];
         };
       };
       wgsecure = {
         address = ":4443";
-        http = {
-          tls = {
-            certResolver = "le";
-            domains = [{
-              main = "leyndell.kenzi.dev";
-              sans = [ "*.leyndell.kenzi.dev" ];
-            }];
-          };
+        http.tls = {
+          certResolver = "le";
+          domains = [{
+            main = "leyndell.kenzi.dev";
+            sans = [ "*.leyndell.kenzi.dev" ];
+          }];
         };
       };
     };
-    certificatesResolvers = {
-      le = {
-        acme = {
-          email = "autismal69@protonmail.com";
-          storage = "acme.json";
-          dnsChallenge = {
-            provider = "cloudflare";
-            delayBeforeCheck = 15;
-          };
-        };
+    certificatesResolvers.le.acme = {
+      email = "admin@kenzi.dev";
+      storage = "acme.json";
+      dnsChallenge = {
+        provider = "cloudflare";
+        delayBeforeCheck = 15;
       };
     };
     providers = { docker = { exposedByDefault = false; }; };
