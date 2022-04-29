@@ -1,48 +1,57 @@
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    nixos.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-small.url = "github:nixos/nixpkgs/nixos-unstable-small";
-    nixos-stable.url = "github:nixos/nixpkgs/nixos-21.11";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-21.11";
     nix-darwin.url = "github:lnl7/nix-darwin/master";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     sops-nix.url = "github:4825764518/sops-nix/darwin";
-    # sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+    sops-nix.inputs.nixpkgs.follows = "nixpkgs";
     deploy-rs.url = "github:serokell/deploy-rs";
-    deploy-rs.inputs.nixpkgs.follows = "nixos";
+    deploy-rs.inputs.nixpkgs.follows = "nixpkgs";
     deploy-rs-stable.url = "github:serokell/deploy-rs";
-    deploy-rs-stable.inputs.nixpkgs.follows = "nixos-stable";
+    deploy-rs-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
   };
 
-  outputs = { self, nixpkgs, nixos, nixos-small, nixos-stable, nix-darwin
-    , home-manager, sops-nix, deploy-rs, deploy-rs-stable }:
+  outputs = { self, nixpkgs, nixpkgs-stable, nix-darwin, home-manager, sops-nix
+    , deploy-rs, deploy-rs-stable }:
     let
-      pkgsNonfree-linux-x64 = import nixos {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-        config.joypixels.acceptLicense = true;
-      };
-      pkgsNonfree-linux-x64-small = import nixos-small {
-        system = "x86_64-linux";
-        config.allowUnfree = true;
-        config.joypixels.acceptLicense = true;
-      };
+      inherit (nixpkgs) lib;
+      platforms = [ "x86_64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      forAllPlatforms = f: lib.genAttrs platforms (platform: f platform);
+      patchedNixpkgs = forAllPlatforms (platform:
+        let originalNixpkgs = (import nixpkgs { system = platform; });
+        in originalNixpkgs.applyPatches {
+          name = "patched-nixpkgs";
+          src = nixpkgs;
+          patches = [
+            (originalNixpkgs.fetchpatch {
+              url =
+                "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/170748.patch";
+              sha256 = "sha256-Vpw0UIlqiZut0Uyf2BoC7svJuTpW4KNHHdnqdYkY7hU=";
+            })
+          ];
+        });
+
+      nixpkgsFor = forAllPlatforms (platform:
+        import patchedNixpkgs.${platform} {
+          system = platform;
+          config.allowUnfree = true;
+          config.joypixels.acceptLicense = true;
+        });
+
       pkgsNonfree-darwin-x64 = import nixpkgs {
         system = "x86_64-darwin";
         config.allowUnfree = true;
       };
-      pkgsNonfree-darwin-aarch64 = import nixpkgs {
-        system = "aarch64-darwin";
-        config.allowUnfree = true;
-      };
     in {
       devShell.x86_64-linux =
-        import ./shell.nix { pkgs = pkgsNonfree-linux-x64; };
+        import ./shell.nix { pkgs = nixpkgsFor."x86_64-linux"; };
       devShell.aarch64-darwin =
-        import ./shell.nix { pkgs = pkgsNonfree-darwin-aarch64; };
+        import ./shell.nix { pkgs = nixpkgsFor."aarch64-darwin"; };
       nixosConfigurations = {
-        ainsel = nixos-stable.lib.nixosSystem {
+        ainsel = nixpkgs-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/ainsel/configuration.nix
@@ -50,7 +59,7 @@
             home-manager.nixosModules.home-manager
           ];
         };
-        firelink = nixos-stable.lib.nixosSystem {
+        firelink = nixpkgs-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/firelink/configuration.nix
@@ -58,7 +67,7 @@
             home-manager.nixosModules.home-manager
           ];
         };
-        leyndell = nixos-stable.lib.nixosSystem {
+        leyndell = nixpkgs-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/leyndell/configuration.nix
@@ -66,7 +75,7 @@
             home-manager.nixosModules.home-manager
           ];
         };
-        morne = nixos-stable.lib.nixosSystem {
+        morne = nixpkgs-stable.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/morne/configuration.nix
@@ -74,14 +83,14 @@
             home-manager.nixosModules.home-manager
           ];
         };
-        stormveil = nixos.lib.nixosSystem {
+        stormveil = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
             ./hosts/stormveil/configuration.nix
             sops-nix.nixosModules.sops
             home-manager.nixosModules.home-manager
           ];
-          pkgs = pkgsNonfree-linux-x64;
+          pkgs = nixpkgsFor."x86_64-linux";
         };
       };
       darwinConfigurations = {
@@ -98,7 +107,7 @@
               };
             }
           ];
-          pkgs = pkgsNonfree-darwin-aarch64;
+          pkgs = nixpkgsFor."aarch64-darwin";
           inputs = {
             inherit self;
             intelPkgs = pkgsNonfree-darwin-x64;
