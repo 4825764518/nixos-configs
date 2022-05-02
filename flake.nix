@@ -32,6 +32,11 @@
         import patchedNixpkgs.${platform} {
           system = platform;
           config.allowUnfree = true;
+          config.packageOverrides = pkgs: {
+            steam = pkgs.steam.override {
+              extraPkgs = pkgs: with pkgs; [ xorg.libXaw ];
+            };
+          };
         });
 
       pkgsNonfree-darwin-x64 = import nixpkgs {
