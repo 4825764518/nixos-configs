@@ -18,22 +18,17 @@
   ];
 
   fonts.fontconfig = {
+    cache32Bit = true;
     enable = true;
     defaultFonts = {
       sansSerif = [ "Fira Sans" ];
       serif = [ "Fira Sans" ];
       monospace = [ "Fira Mono" ];
-      emoji = [ "JoyPixels" ];
+      emoji = [ "Twitter Color Emoji" "Noto Color Emoji" ];
     };
   };
 
-  fonts.fonts = with pkgs; [
-    fira
-    fira-mono
-    fira-code
-    fira-code-symbols
-    joypixels
-  ];
+  fonts.fonts = with pkgs; [ fira fira-mono fira-code fira-code-symbols ];
 
   programs.dconf.enable = true;
   programs.steam.enable = true;

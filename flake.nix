@@ -32,7 +32,6 @@
         import patchedNixpkgs.${platform} {
           system = platform;
           config.allowUnfree = true;
-          config.joypixels.acceptLicense = true;
         });
 
       pkgsNonfree-darwin-x64 = import nixpkgs {
