@@ -24,6 +24,10 @@ in {
         jetbrains.rider
         vscode
 
+        # SDKs
+        dotnet-sdk
+        jdk
+
         # Tools
         cutter
         ghidra
