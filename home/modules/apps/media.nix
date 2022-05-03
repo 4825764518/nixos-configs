@@ -22,6 +22,7 @@ in {
         obs-studio
         spotify
         thunderbird
+        ungoogled-chromium
       ];
   };
 }
