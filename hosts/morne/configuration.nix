@@ -52,6 +52,7 @@
             wireguardPeers.clientPeers.firelinkPeer
             wireguardPeers.clientPeers.kilnPeer
             wireguardPeers.clientPeers.stormveilPeer
+            wireguardPeers.clientPeers.stormveilWindowsPeer
             wireguardPeers.clientPeers.interloperPeer
             wireguardPeers.clientPeers.iphonePeer
             wireguardPeers.clientPeers.iphoneProPeer

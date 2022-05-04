@@ -20,6 +20,12 @@
       persistentKeepalive = 25;
     };
 
+    stormveilWindowsPeer = {
+      publicKey = "cnY4vr+LJiR7Mar+oID8I2r+vll8RexI055DKIHVNn0=";
+      allowedIPs = [ "10.64.180.86/32" "fc00:bbbb:bbbb:bb01::1:b455/128" ];
+      persistentKeepalive = 25;
+    };
+
     interloperPeer = {
       publicKey = "E3NUKOODIk6gSm85LtfzLJUwwXcKOeeli8dihRDgfQM=";
       allowedIPs = [ "10.67.238.34/32" "fc00:bbbb:bbbb:bb01::4:ee21/128" ];
@@ -63,6 +69,7 @@
         "10.67.238.34/32"
         "10.64.57.118/32"
         "10.64.73.186/32"
+        "10.64.180.86/32"
         "fd4e:acd2:410e::/48"
         "fd9f:b343:6ef8::/48"
       ] ++ lib.optionals withHetznerRoutes [
