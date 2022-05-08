@@ -10,6 +10,7 @@
   };
 
   outputs = { self, nixpkgs, nix-darwin, home-manager, sops-nix, deploy-rs }: {
+    apps."x86_64-linux".deploy-rs = deploy-rs.defaultApp."x86_64-linux";
     nixosConfigurations = {
       ainsel = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
