@@ -102,7 +102,19 @@
     challengeResponseAuthentication = false;
   };
 
+  sops.secrets.morne-mumble-environment = {
+    sopsFile = ../../secrets/morne/mumble.yaml;
+  };
+  services.murmur = {
+    allowHtml = false;
+    bandwidth = 130000;
+    enable = true;
+    environmentFile = "${config.sops.secrets.morne-mumble-environment.path}";
+    password = "$MURMURD_PASSWORD";
+    welcome = "hieee";
+  };
+
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 51820 ];
-  networking.firewall.allowedUDPPorts = [ 22 51820 ];
+  networking.firewall.allowedTCPPorts = [ 22 51820 64738 ];
+  networking.firewall.allowedUDPPorts = [ 22 51820 64738 ];
 }
