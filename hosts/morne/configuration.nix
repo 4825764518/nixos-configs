@@ -107,7 +107,7 @@
   };
   services.murmur = {
     allowHtml = false;
-    bandwidth = 130000;
+    bandwidth = 300000;
     enable = true;
     environmentFile = "${config.sops.secrets.morne-mumble-environment.path}";
     password = "$MURMURD_PASSWORD";
