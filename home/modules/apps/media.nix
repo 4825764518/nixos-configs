@@ -19,6 +19,7 @@ in {
         inkscape-with-extensions
         jellyfin-media-player
         mpv
+        mumble
         obs-studio
         spotify
         thunderbird
