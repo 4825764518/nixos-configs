@@ -24,6 +24,7 @@ let
       dnsChallenge = {
         provider = "cloudflare";
         delayBeforeCheck = 15;
+        resolvers = [ "1.1.1.1:53" ];
       };
     };
     providers = { docker = { exposedByDefault = false; }; };
