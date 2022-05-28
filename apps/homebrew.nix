@@ -4,6 +4,7 @@
     brews = [ "python@3.9" "wireguard-tools" ];
     casks = [
       "altserver"
+      "coconutbattery"
       "db-browser-for-sqlite"
       "docker"
       "dotnet-sdk"
