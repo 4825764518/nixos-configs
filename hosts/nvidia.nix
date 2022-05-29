@@ -1,6 +1,8 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [ gwe ];
+
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
   hardware.nvidia.modesetting.enable = true;
 
