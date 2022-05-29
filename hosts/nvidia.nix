@@ -9,13 +9,20 @@
   services.xserver.exportConfiguration = true;
   services.xserver.videoDrivers = [ "nvidia" ];
 
+  services.xserver.config = ''
+    Section "ServerLayout"
+      Identifier "Layout-custom"
+      Screen 0 "Screen-nvidia[0]" 0 0
+    EndSection
+  '';
+
   services.xserver.deviceSection = ''
     VendorName "NVIDIA Corporation"
     Option "Coolbits" "28"
   '';
 
-  services.xserver.serverLayoutSection = ''
-    Screen 0 "Screen-nvidia[0]" 0 0
+  services.xserver.serverFlagsSection = ''
+    Option "DefaultServerLayout" "Layout-custom"
   '';
 
   # TODO: move to stormveil config if multiple machine-specific nvidia configs are needed
