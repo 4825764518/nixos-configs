@@ -52,4 +52,11 @@
 
     alsa.support32Bit = true;
   };
+
+  services.xserver = {
+    libinput.mouse = {
+      accelProfile = "flat";
+      accelSpeed = "0";
+    };
+  };
 }
