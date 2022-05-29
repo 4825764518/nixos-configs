@@ -4,6 +4,7 @@
   imports = [
     ../linux-common-amd.nix
     ../linux-desktop-common.nix
+    ../nvidia.nix
     ./hardware-configuration.nix
     ./wireguard.nix
   ];
@@ -92,19 +93,11 @@
     users.root = import ../../home/home-linux-server.nix;
   };
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  services.xserver.deviceSection = ''
-    Option "Coolbits" "28"
-  '';
-
   hardware.firmware = with pkgs; [ broadcom-bt-firmware ];
   hardware.bluetooth = {
     enable = true;
     package = pkgs.bluezFull;
   };
-
-  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.stable;
-  hardware.nvidia.modesetting.enable = true;
 
   services.openssh.enable = true;
 
@@ -129,14 +122,14 @@
   sops.secrets.stormveil-restic-ainsel-s3-password = {
     sopsFile = ../../secrets/stormveil/passwords.yaml;
   };
-  services.restic.backups = let 
+  services.restic.backups = let
     remoteBackupExcludePaths = [
-        ''--exclude="/home/kenzie/.local/share/containers"''
-        ''--exclude="/home/kenzie/.local/share/Steam"''
-        ''--exclude="/home/kenzie/.config/Element/Cache"''
-        ''--exclude="/home/kenzie/.var/app/com.valvesoftware.Steam"''
-        ''--exclude="/home/kenzie/.cache"''
-        ''--exclude="/home/kenzie/Downloads"''
+      ''--exclude="/home/kenzie/.local/share/containers"''
+      ''--exclude="/home/kenzie/.local/share/Steam"''
+      ''--exclude="/home/kenzie/.config/Element/Cache"''
+      ''--exclude="/home/kenzie/.var/app/com.valvesoftware.Steam"''
+      ''--exclude="/home/kenzie/.cache"''
+      ''--exclude="/home/kenzie/Downloads"''
     ];
   in {
     lanBackup = {
