@@ -15,6 +15,7 @@
     lm_sensors
     qgnomeplatform
     usbutils
+    mangohud
   ];
 
   fonts.fontconfig = {
