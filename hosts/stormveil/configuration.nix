@@ -23,10 +23,10 @@
 
     networkmanager = {
       enable = false;
-      unmanaged = [ "enp34s0" "enp40s0" "enp40s0d1" ];
+      unmanaged = [ "enp34s0" "enp37s0" "enp37s0d1" ];
     };
 
-    bridges.br0 = { interfaces = [ "enp40s0" "enp40s0d1" ]; };
+    bridges.br0 = { interfaces = [ "enp37s0" "enp37s0d1" ]; };
 
     interfaces = {
       enp34s0 = {
