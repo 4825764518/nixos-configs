@@ -16,6 +16,7 @@
       VendorName     "NVIDIA Corporation"
       BoardName      "NVIDIA GeForce RTX 3080 Ti"
       BusID          "PCI:39:0:0"
+      Option         "Coolbits" "28"
     EndSection
 
     Section "Device"
@@ -24,6 +25,7 @@
      VendorName     "NVIDIA Corporation"
      BoardName      "NVIDIA GeForce RTX 2070"
      BusID          "PCI:40:0:0"
+     Option         "Coolbits" "28"
     EndSection
 
     Section "Monitor"
