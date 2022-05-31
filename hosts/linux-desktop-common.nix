@@ -13,9 +13,10 @@
     gnomeExtensions.user-themes
     gnomeExtensions.vitals
     lm_sensors
+    mangohud
+    pciutils
     qgnomeplatform
     usbutils
-    mangohud
   ];
 
   fonts.fontconfig = {
