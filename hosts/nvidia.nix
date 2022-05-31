@@ -10,38 +10,52 @@
   services.xserver.videoDrivers = [ "nvidia" ];
 
   services.xserver.config = ''
+    Section "Device"
+      Identifier     "Device0"
+      Driver         "nvidia"
+      VendorName     "NVIDIA Corporation"
+      BoardName      "NVIDIA GeForce RTX 3080 Ti"
+      BusID          "PCI:39:0:0"
+    EndSection
+
+    Section "Device"
+     Identifier     "Device1"
+     Driver         "nvidia"
+     VendorName     "NVIDIA Corporation"
+     BoardName      "NVIDIA GeForce RTX 2070"
+     BusID          "PCI:40:0:0"
+    EndSection
+
+    Section "Monitor"
+      Identifier     "Monitor0"
+      VendorName     "Unknown"
+      ModelName      "Acer VG270U P"
+      HorizSync       222.0 - 222.0
+      VertRefresh     40.0 - 144.0
+    EndSection
+
+    Section "Screen"
+      Identifier     "Screen0"
+      Device         "Device0"
+      Monitor        "Monitor0"
+      DefaultDepth    24
+      Option         "Stereo" "0"
+      Option         "nvidiaXineramaInfoOrder" "DFP-1"
+      Option         "SLI" "Off"
+      Option         "MultiGPU" "Off"
+      Option         "BaseMosaic" "off"
+      SubSection     "Display"
+          Depth       24
+      EndSubSection
+    EndSection
+
     Section "ServerLayout"
       Identifier "Layout-custom"
-      Screen 0 "Screen-nvidia[0]" 0 0
+      Screen 0 "Screen0" 0 0
     EndSection
-  '';
-
-  services.xserver.deviceSection = ''
-    VendorName "NVIDIA Corporation"
-    Option "Coolbits" "28"
   '';
 
   services.xserver.serverFlagsSection = ''
     Option "DefaultServerLayout" "Layout-custom"
-  '';
-
-  # TODO: move to stormveil config if multiple machine-specific nvidia configs are needed
-  services.xserver.monitorSection = ''
-    ModelName "Acer VG270U P"
-    HorizSync 222.0 - 222.0
-    VertRefresh 40.0 - 144.0
-  '';
-
-  services.xserver.screenSection = ''
-    DefaultDepth 24
-    Option "Stereo" "0"
-    Option "nvidiaXineramaInfoOrder" "DFP-1"
-    Option "metamodes" "nvidia-auto-select +0+0 {ForceCompositionPipeline=On, AllowGSYNCCompatible=On}"
-    Option "SLI" "Off"
-    Option "MultiGPU" "Off"
-    Option "BaseMosaic" "off"
-    SubSection "Display"
-        Depth       24
-    EndSubSection
   '';
 }
