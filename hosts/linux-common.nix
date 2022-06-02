@@ -17,6 +17,7 @@
     file
     git
     htop
+    restic
     screen
     smartmontools
     wget
