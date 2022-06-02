@@ -38,7 +38,12 @@
           ];
         });
 
-      nixpkgsFor = forAllPlatforms (platform:
+      nixpkgsFor = let
+        restic-overlay = (final: prev: {
+          restic =
+            final.callPackage (import pkgs/restic-unstable/default.nix) { };
+        });
+      in forAllPlatforms (platform:
         import patchedNixpkgs.${platform} {
           system = platform;
           config.allowUnfree = true;
@@ -47,6 +52,8 @@
               extraPkgs = pkgs: with pkgs; [ xorg.libXaw ];
             };
           };
+
+          overlays = [ restic-overlay ];
         });
 
       pkgsNonfree-darwin-x64 = import nixpkgs {
