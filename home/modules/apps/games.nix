@@ -5,9 +5,9 @@ let
   homeCfg = config.profiles.home;
   cfg = config.profiles.home.applications.games;
   cataclysmUnstable = pkgs.cataclysm-dda-git.override {
-    version = "2022-04-13";
-    rev = "a1cea1e8526ed76e86b89e161829299e2b8d7c19";
-    sha256 = "0dz6674sf0s3gh08pgka5x1nypazkg5yb1kpicrc112wmvs4cd0d";
+    version = "2022-06-03";
+    rev = "b70bca16173750e5eb3127d6eb93664221df4fb5";
+    sha256 = "sha256-Ru6+Fn7uiqQJSqwQiSW7IQpO4GS3eCLOzUuUOzjbnS0=";
   };
   lutrisEnv = pkgs.lutris.override {
     extraPkgs =
