@@ -123,6 +123,11 @@
     sopsFile = ../../secrets/stormveil/passwords.yaml;
   };
   services.restic.backups = let
+    localBackupExcludePaths = [
+      ''--exclude="/var/cache"''
+      ''--exclude="/home/kenzie/.config/Element/Cache"''
+      ''--exclude="/home/kenzie/.cache"''
+    ];
     remoteBackupExcludePaths = [
       ''--exclude="/home/kenzie/.local/share/containers"''
       ''--exclude="/home/kenzie/.local/share/Steam"''
@@ -135,13 +140,15 @@
     lanBackup = {
       initialize = true;
       passwordFile = "${config.sops.secrets.stormveil-restic-password.path}";
-      paths = [ "/home" "/mnt/qlc-nvme" "/mnt/linux-game-libraries" ];
+      paths = [ "/home" "/root" "/mnt/linux-game-libraries" ];
       pruneOpts = [
         "--keep-daily 30"
         "--keep-weekly 12"
         "--keep-monthly 36"
         "--keep-yearly 100"
       ];
+      extraBackupArgs = [ "--compression=auto" ] ++ localBackupExcludePaths;
+      extraOptions = [ "verbose=1" ];
       repository =
         "sftp:restic@10.10.31.10:/hangar/restic-backups/stormveil-backups";
       timerConfig = { OnCalendar = "daily"; };
@@ -158,7 +165,7 @@
         "--keep-monthly 12"
         "--keep-yearly 100"
       ];
-      extraBackupArgs = remoteBackupExcludePaths;
+      extraBackupArgs = [ "--compression=auto" ] ++ remoteBackupExcludePaths;
       extraOptions = [ "verbose=1" ];
       repository = "b2:restic-stormveil:/";
       timerConfig = { OnCalendar = "daily"; };
@@ -176,7 +183,7 @@
         "--keep-monthly 12"
         "--keep-yearly 100"
       ];
-      extraBackupArgs = remoteBackupExcludePaths;
+      extraBackupArgs = [ "--compression=auto" ] ++ remoteBackupExcludePaths;
       extraOptions = [ "verbose=1" ];
       repository = "s3:https://s3.ainsel.kenzi.dev/stormveil-backups";
       timerConfig = { OnCalendar = "daily"; };
