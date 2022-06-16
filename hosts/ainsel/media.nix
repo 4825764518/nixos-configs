@@ -57,6 +57,9 @@ in {
   sops.secrets.ainsel-traefik-environment = {
     sopsFile = ../../secrets/ainsel/containers.yaml;
   };
+  sops.secrets.ainsel-plex-environment = {
+    sopsFile = ../../secrets/ainsel/containers.yaml;
+  };
   virtualisation.oci-containers.containers = {
     media-bazarr = {
       autoStart = true;
@@ -90,10 +93,8 @@ in {
     };
     media-plex = {
       autoStart = true;
-      environment = {
-        PUID = "2000";
-        PGID = "2000";
-      };
+      environmentFiles =
+        [ "${config.sops.secrets.ainsel-plex-environment.path}" ];
       extraOptions = containerHelpers.containerLabels {
         name = "plex";
         port = 32400;
