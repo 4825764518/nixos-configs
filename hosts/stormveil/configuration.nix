@@ -129,6 +129,7 @@
       ''--exclude="/home/kenzie/.cache"''
     ];
     remoteBackupExcludePaths = [
+      ''--exclude="/home/kenzie/.bitmonero"''
       ''--exclude="/home/kenzie/.local/share/containers"''
       ''--exclude="/home/kenzie/.local/share/Steam"''
       ''--exclude="/home/kenzie/.config/Element/Cache"''
