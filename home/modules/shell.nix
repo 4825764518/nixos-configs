@@ -14,6 +14,11 @@ in {
   };
 
   config = mkIf (homeCfg.enable && cfg.enable) {
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
+
     programs.zsh = mkIf (cfg.backend == "zsh") {
       enable = true;
       enableAutosuggestions = true;
