@@ -146,7 +146,7 @@ in {
         port = 8008;
       };
       volumes = [ "/opt/containers/synapse/files:/data" ];
-      image = "matrixdotorg/synapse:v1.57.1";
+      image = "matrixdotorg/synapse:v1.61.0";
     };
     whoami = {
       autoStart = true;
