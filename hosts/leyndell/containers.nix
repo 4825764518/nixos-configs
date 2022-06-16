@@ -65,6 +65,8 @@ in {
       })
     }";
 
+  virtualisation.oci-containers.backend = "docker";
+
   # https://www.breakds.org/post/declarative-docker-in-nixos/
   systemd.services.init-traefik-network = {
     description = "Create the network bridge traefik-rproxy.";
