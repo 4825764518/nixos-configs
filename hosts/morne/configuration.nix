@@ -71,6 +71,7 @@
           privateKeyFile =
             "${config.sops.secrets.morne-wireguard-media-privkey.path}";
           peers = [
+            wireguardPeers.clientPeers.stormveilPeer
             wireguardPeers.clientPeers.interloperPeer
 
             wireguardPeers.mediaPeers.ainselPeer

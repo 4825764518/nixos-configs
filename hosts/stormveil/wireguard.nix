@@ -30,6 +30,7 @@ in {
         peers = [
           wireguardPeers.serverPeers.ovhPeer
           (wireguardPeers.serverPeers.mornePeer true)
+          (wireguardPeers.mediaPeers.mornePeer true)
         ];
       };
     };

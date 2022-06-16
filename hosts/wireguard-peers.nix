@@ -101,8 +101,12 @@
 
     mornePeer = withHetznerRoutes: {
       publicKey = "bqkAKFdIbQ71HyJ/0vRjQs/Tjv73o6kRZ0H/9jjO2wY=";
-      allowedIPs = [ "192.168.173.10/32" "10.67.238.34/32" ]
-        ++ lib.optionals withHetznerRoutes [ "192.168.173.20/32" ];
+      allowedIPs = [
+        "192.168.173.10/32"
+        "192.168.171.20/32"
+        "fd4e:acd2:410e:0020::/64"
+        "10.67.238.34/32"
+      ] ++ lib.optionals withHetznerRoutes [ "192.168.173.20/32" ];
       endpoint = "51.222.128.114:51821";
       persistentKeepalive = 25;
     };
