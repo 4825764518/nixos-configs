@@ -157,8 +157,7 @@ in {
       image = "ghcr.io/linuxserver/radarr:4.0.5";
       volumes = [
         "/storage/media/containers/radarr/config:/config"
-        "/storage/media/downloads:/downloads"
-        "/storage/media/libraries/movies:/movies"
+        "/storage/media:/storage/media"
       ];
     };
     media-sonarr = {
@@ -174,8 +173,7 @@ in {
       image = "ghcr.io/linuxserver/sonarr:3.0.7";
       volumes = [
         "/storage/media/containers/sonarr/config:/config"
-        "/storage/media/downloads:/downloads"
-        "/storage/media/libraries/tv:/tv"
+        "/storage/media:/storage/media"
       ];
     };
     media-traefik = {
