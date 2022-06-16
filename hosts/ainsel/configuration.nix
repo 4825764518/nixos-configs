@@ -6,6 +6,7 @@
     ../linux-common-amd.nix
     ./containers.nix
     ./hardware-configuration.nix
+    ./media.nix
     ./wireguard.nix
   ];
 
@@ -137,8 +138,9 @@
   '';
 
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 443 22000 23843 51820 ];
-  networking.firewall.allowedUDPPorts = [ 22 23843 51820 ];
+  networking.firewall.allowedTCPPorts =
+    [ 22 443 22000 23843 23844 51820 51821 ];
+  networking.firewall.allowedUDPPorts = [ 22 23843 22844 51820 51821 ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
