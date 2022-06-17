@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./linux-common.nix ../apps/lightdm.nix ];
+  imports = [ ./linux-common.nix ../apps/lightdm.nix ../apps/xfce.nix ];
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
   boot.kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_5_17;
@@ -37,7 +37,6 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.desktopManager.xfce.enable = true;
 
   # Enable sound.
   sound.enable = true;
