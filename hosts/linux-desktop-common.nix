@@ -9,9 +9,6 @@
   boot.blacklistedKernelModules = [ "snd_hda_codec_hdmi" ];
 
   environment.systemPackages = with pkgs; [
-    gnomeExtensions.logo-menu
-    gnomeExtensions.user-themes
-    gnomeExtensions.vitals
     lm_sensors
     mangohud
     pciutils
@@ -40,7 +37,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.desktopManager.xfce.enable = true;
 
   # Enable sound.
   sound.enable = true;
