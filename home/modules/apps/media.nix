@@ -21,6 +21,7 @@ in {
         mpv
         mumble
         obs-studio
+        plex-media-player
         spotify
         thunderbird
         ungoogled-chromium
