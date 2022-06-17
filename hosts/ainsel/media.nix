@@ -99,6 +99,9 @@ in {
         port = 32400;
       };
       image = "ghcr.io/linuxserver/plex:1.27.0";
+      ports = [
+        "192.168.173.20:32400:32400"
+      ];
       volumes = [
         "/storage/media/containers/plex/config:/config"
         "/storage/media/libraries/movies:/movies"
