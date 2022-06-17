@@ -20,6 +20,7 @@
       "keepassxc"
       "libreoffice"
       "mpv"
+      "plex-media-player"
       "postman"
       "raycast"
       "rectangle"
