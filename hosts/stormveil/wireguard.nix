@@ -12,7 +12,10 @@ let
     }];
   };
 
-  wireguardPeers = import ../wireguard-peers.nix { inherit lib; useIpv6 = false; };
+  wireguardPeers = import ../wireguard-peers.nix {
+    inherit lib;
+    useIpv6 = false;
+  };
 in {
   config = {
     sops.secrets.stormveil-wireguard-privkey = {
@@ -30,7 +33,6 @@ in {
         peers = [
           wireguardPeers.serverPeers.ovhPeer
           (wireguardPeers.serverPeers.mornePeer true)
-          (wireguardPeers.mediaPeers.mornePeer true)
         ];
       };
     };

@@ -48,7 +48,8 @@
   serverPeers = {
     ainselPeer = {
       publicKey = "eY/49qo0cPnTAw6Kl0AwlGE/jU+jrkdCNHXVtSNvfn0=";
-      allowedIPs = [ "192.168.172.20/32" "fdc3:62d8:4c3a:0020::/64" ];
+      allowedIPs =
+        [ "192.168.172.20/32" "192.168.173.20/32" "fdc3:62d8:4c3a:0020::/64" ];
       endpoint =
         if useIpv6 then "2a01:4f9:6a:206b::1:51820" else "65.21.233.174:51820";
       persistentKeepalive = 25;
@@ -74,6 +75,7 @@
         "fd9f:b343:6ef8::/48"
       ] ++ lib.optionals withHetznerRoutes [
         "192.168.172.0/24"
+        "192.168.173.0/24"
         "fdc3:62d8:4c3a::/48"
       ];
       endpoint = if useIpv6 then
@@ -88,26 +90,6 @@
       allowedIPs = [ "192.168.170.0/24" ];
       endpoint =
         if useIpv6 then "2607:5300:60:3fcb::1:51820" else "192.99.14.203:51820";
-      persistentKeepalive = 25;
-    };
-  };
-
-  mediaPeers = {
-    ainselPeer = {
-      publicKey = "644cWL+BmSi/hZTsTCzdZbK2Ss5VqjTujx3Q0a6B9WY=";
-      allowedIPs = [ "192.168.173.20/32" ];
-      endpoint = "65.21.233.174:51821";
-    };
-
-    mornePeer = withHetznerRoutes: {
-      publicKey = "bqkAKFdIbQ71HyJ/0vRjQs/Tjv73o6kRZ0H/9jjO2wY=";
-      allowedIPs = [
-        "192.168.173.10/32"
-        "192.168.171.20/32"
-        "fd4e:acd2:410e:0020::/64"
-        "10.67.238.34/32"
-      ] ++ lib.optionals withHetznerRoutes [ "192.168.173.20/32" ];
-      endpoint = "51.222.128.114:51821";
       persistentKeepalive = 25;
     };
   };

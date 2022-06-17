@@ -11,9 +11,6 @@
   sops.secrets.morne-wireguard-privkey = {
     sopsFile = ../../secrets/morne/wireguard.yaml;
   };
-  sops.secrets.morne-wireguard-media-privkey = {
-    sopsFile = ../../secrets/morne/wireguard.yaml;
-  };
   networking = {
     defaultGateway = "192.99.14.254";
     defaultGateway6 = {
@@ -63,18 +60,6 @@
             wireguardPeers.serverPeers.ainselPeer
             wireguardPeers.serverPeers.leyndellPeer
             wireguardPeers.serverPeers.ovhPeer
-          ];
-        };
-        wg-media = {
-          ips = [ "192.168.173.10/24" ];
-          listenPort = 51821;
-          privateKeyFile =
-            "${config.sops.secrets.morne-wireguard-media-privkey.path}";
-          peers = [
-            wireguardPeers.clientPeers.stormveilPeer
-            wireguardPeers.clientPeers.interloperPeer
-
-            wireguardPeers.mediaPeers.ainselPeer
           ];
         };
       };
