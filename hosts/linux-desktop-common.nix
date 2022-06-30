@@ -4,7 +4,7 @@
   imports = [ ./linux-common.nix ../apps/lightdm.nix ../apps/xfce.nix ];
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback.out ];
-  boot.kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_5_17;
+  boot.kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_5_18;
   boot.kernelModules = [ "v4l2loopback" "zenpower" ];
   boot.blacklistedKernelModules = [ "snd_hda_codec_hdmi" ];
 

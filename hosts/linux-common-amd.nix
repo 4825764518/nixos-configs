@@ -1,7 +1,7 @@
 { cfg, pkgs, ... }:
 
 {
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_17;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_5_18;
 
   boot.kernelModules = [ "amd-pstate" ];
   boot.kernelParams =
