@@ -16,6 +16,13 @@
       [ "ssd" "compress-force=zstd:1" "space_cache=v2" "discard=async" ];
   };
 
+  fileSystems."/mnt/qlc-nvme" = {
+    device = "/dev/disk/by-uuid/02f1e732-3adc-4cb7-bf00-78cba0fe16ff";
+    fsType = "btrfs";
+    options =
+      [ "ssd" "compress-force=zstd:3" "space_cache=v2" "discard=async" ];
+  };
+
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/934C-9FE2";
     fsType = "vfat";
