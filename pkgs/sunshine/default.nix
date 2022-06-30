@@ -8,7 +8,7 @@ let
     repo = "sunshine";
     rev = "v${version}";
     fetchSubmodules = true;
-    sha256 = "1lgczf3hjckr5r44mvka6jnha5ja2mpj72bwjqfyf61vkhg0gd32";
+    sha256 = "sha256-XVecR365Xm2iR5JbGTAQERK0u+bmSxt/BQY1r885jr8=";
   };
   version = "0.11.1";
 in stdenv.mkDerivation {
