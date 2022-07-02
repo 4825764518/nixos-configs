@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
@@ -217,6 +217,12 @@
   ];
 
   hardware.opengl.driSupport32Bit = true;
+
+  # use nvfbc enabled nvidia driver
+  hardware.nvidia.package = lib.mkForce
+    (pkgs.arc.packages.nvidia-patch.override {
+      nvidia_x11 = config.boot.kernelPackages.nvidiaPackages.stable;
+    });
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

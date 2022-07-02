@@ -48,6 +48,12 @@
           system = platform;
           config.allowUnfree = true;
           config.packageOverrides = pkgs: {
+            arc = import (builtins.fetchTarball {
+              url =
+                "https://github.com/arcnmx/nixexprs/archive/727f8eb7aaf542b675aaa9141a5027ccb961539e.tar.gz";
+              sha256 =
+                "sha256:1af30gahcnv69di12jlvpvqz4q5h6i6anw3bbsnhl4d1wwv0ry7s";
+            }) { inherit pkgs; };
             steam = pkgs.steam.override {
               extraPkgs = pkgs: with pkgs; [ xorg.libXaw ];
             };
