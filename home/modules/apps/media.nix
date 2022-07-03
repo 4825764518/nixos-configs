@@ -20,11 +20,27 @@ in {
         jellyfin-media-player
         mpv
         mumble
-        obs-studio
         plex-media-player
         spotify
         thunderbird
         ungoogled-chromium
       ];
+
+    programs.obs-studio = mkIf isLinux {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins;
+        [
+          (obs-nvfbc.overrideAttrs (oldAttrs: {
+            version = "0.0.6";
+
+            src = pkgs.fetchFromGitLab {
+              owner = "fzwoch";
+              repo = "obs-nvfbc";
+              rev = "v0.0.6";
+              sha256 = "sha256-WoqtppgIcjE0n9atsvAZrXvBVi2rWCIIFDXTgblQK9I=";
+            };
+          }))
+        ];
+    };
   };
 }
