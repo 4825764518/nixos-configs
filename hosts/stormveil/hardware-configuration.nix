@@ -16,6 +16,13 @@
       [ "ssd" "compress-force=zstd:1" "space_cache=v2" "discard=async" ];
   };
 
+  fileSystems."/nix" = {
+    device = "/dev/disk/by-uuid/2b0fa2b4-809c-42e6-89fd-e15f0abe2b63";
+    fsType = "btrfs";
+    options =
+      [ "ssd" "compress-force=zstd:9" "space_cache=v2" "discard=async" ];
+  };
+
   fileSystems."/mnt/qlc-nvme" = {
     device = "/dev/disk/by-uuid/02f1e732-3adc-4cb7-bf00-78cba0fe16ff";
     fsType = "btrfs";
