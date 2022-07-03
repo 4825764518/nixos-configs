@@ -210,11 +210,7 @@
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    (callPackage ../../pkgs/sunshine/default.nix { })
-    virt-manager
-    wine-staging
-  ];
+  environment.systemPackages = with pkgs; [ virt-manager wine-staging ];
 
   hardware.opengl.driSupport32Bit = true;
 
