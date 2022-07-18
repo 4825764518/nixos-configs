@@ -8,6 +8,7 @@
     ./hardware-configuration.nix
     ./media.nix
     ./wireguard.nix
+    ../xmrig.nix
   ];
 
   networking.hostName = "ainsel";

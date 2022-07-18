@@ -16,6 +16,7 @@ in {
     ./containers.nix
     ./hardware-configuration.nix
     ./wireguard.nix
+    ../xmrig.nix
   ];
 
   networking.hostName = "leyndell";
