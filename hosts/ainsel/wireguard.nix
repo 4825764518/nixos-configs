@@ -6,6 +6,9 @@ in {
     sops.secrets.ainsel-wireguard-privkey = {
       sopsFile = ../../secrets/ainsel/wireguard.yaml;
     };
+    sops.secrets.ainsel-wireguard-mullvad-privkey = {
+      sopsFile = ../../secrets/ainsel/wireguard.yaml;
+    };
     networking.wireguard.interfaces = {
       wg-internal = {
         ips = [
@@ -21,6 +24,16 @@ in {
           (wireguardPeers.serverPeers.mornePeer false)
           wireguardPeers.serverPeers.ovhPeer
         ];
+      };
+      wg-mullvad-fi1 = {
+        privateKeyFile =
+          "${config.sops.secrets.ainsel-wireguard-mullvad-privkey.path}";
+        ips = [ "10.66.75.124/32" ];
+        peers = [{
+          publicKey = "rGL76wTvmRKI2f8VHdGEZnTQbwRG4+RTO1sokGouVGU=";
+          allowedIPs = [ "10.64.0.1/32" ];
+          endpoint = "185.204.1.203:51820";
+        }];
       };
     };
   };
