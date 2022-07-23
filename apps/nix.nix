@@ -1,10 +1,21 @@
 { config, pkgs, ... }: {
+  # Run GC if we have less than 10GiB free in the nix store
   nix.extraOptions = ''
     experimental-features = nix-command flakes
+    min-free = ${toString (10 * (1024 * 1024 * 1024))}
   '';
-  # this is required until nix 2.4 is released
-  nix.package = pkgs.nixUnstable;
-  nix.trustedUsers = [ "@wheel" ];
+
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+    persistent = true;
+  };
+
+  nix.settings = {
+    auto-optimise-store = true;
+    trusted-users = [ "@wheel" ];
+  };
 
   environment.systemPackages = with pkgs; [ nixfmt ];
 }
