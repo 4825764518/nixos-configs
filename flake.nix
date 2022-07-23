@@ -50,9 +50,9 @@
           config.packageOverrides = pkgs: {
             arc = import (builtins.fetchTarball {
               url =
-                "https://github.com/arcnmx/nixexprs/archive/727f8eb7aaf542b675aaa9141a5027ccb961539e.tar.gz";
+                "https://github.com/arcnmx/nixexprs/archive/bf7e09b35e1f36eb3d5b687eee85ce38b539eb92.tar.gz";
               sha256 =
-                "sha256:1af30gahcnv69di12jlvpvqz4q5h6i6anw3bbsnhl4d1wwv0ry7s";
+                "sha256:19v3ad3dvmqi10ww0q1ddw8hm658sfywaxbx9spaw4jjbz6c35fs";
             }) { inherit pkgs; };
             steam = pkgs.steam.override {
               extraPkgs = pkgs: with pkgs; [ xorg.libXaw ];
