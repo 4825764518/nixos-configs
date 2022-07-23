@@ -17,5 +17,5 @@
     trusted-users = [ "@wheel" ];
   };
 
-  environment.systemPackages = with pkgs; [ nixfmt ];
+  environment.systemPackages = with pkgs; [ nixfmt rnix-lsp ];
 }
