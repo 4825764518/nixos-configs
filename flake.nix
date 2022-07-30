@@ -16,7 +16,8 @@
       forAllPlatforms = f: lib.genAttrs platforms (platform: f platform);
       patchedNixpkgs = forAllPlatforms (platform:
         let originalNixpkgs = (import nixpkgs { system = platform; });
-        in originalNixpkgs.applyPatches {
+        in
+        originalNixpkgs.applyPatches {
           name = "patched-nixpkgs";
           src = nixpkgs;
           patches = [
@@ -38,35 +39,40 @@
           ];
         });
 
-      nixpkgsFor = let
-        restic-overlay = (final: prev: {
-          restic =
-            final.callPackage (import pkgs/restic-unstable/default.nix) { };
-        });
-      in forAllPlatforms (platform:
-        import patchedNixpkgs.${platform} {
-          system = platform;
-          config.allowUnfree = true;
-          config.packageOverrides = pkgs: {
-            arc = import (builtins.fetchTarball {
-              url =
-                "https://github.com/arcnmx/nixexprs/archive/bf7e09b35e1f36eb3d5b687eee85ce38b539eb92.tar.gz";
-              sha256 =
-                "sha256:19v3ad3dvmqi10ww0q1ddw8hm658sfywaxbx9spaw4jjbz6c35fs";
-            }) { inherit pkgs; };
-            steam = pkgs.steam.override {
-              extraPkgs = pkgs: with pkgs; [ xorg.libXaw ];
+      nixpkgsFor =
+        let
+          restic-overlay = (final: prev: {
+            restic =
+              final.callPackage (import pkgs/restic-unstable/default.nix) { };
+          });
+        in
+        forAllPlatforms (platform:
+          import patchedNixpkgs.${platform} {
+            system = platform;
+            config.allowUnfree = true;
+            config.packageOverrides = pkgs: {
+              arc = import
+                (builtins.fetchTarball {
+                  url =
+                    "https://github.com/arcnmx/nixexprs/archive/bf7e09b35e1f36eb3d5b687eee85ce38b539eb92.tar.gz";
+                  sha256 =
+                    "sha256:19v3ad3dvmqi10ww0q1ddw8hm658sfywaxbx9spaw4jjbz6c35fs";
+                })
+                { inherit pkgs; };
+              steam = pkgs.steam.override {
+                extraPkgs = pkgs: with pkgs; [ xorg.libXaw ];
+              };
             };
-          };
 
-          overlays = [ restic-overlay ];
-        });
+            overlays = [ restic-overlay ];
+          });
 
       pkgsNonfree-darwin-x64 = import nixpkgs {
         system = "x86_64-darwin";
         config.allowUnfree = true;
       };
-    in {
+    in
+    {
       devShell.x86_64-linux =
         import ./shell.nix { pkgs = nixpkgsFor."x86_64-linux"; };
       devShell.aarch64-darwin =
@@ -87,6 +93,25 @@
           system = "aarch64-darwin";
           modules = [
             ./hosts/interloper/darwin-configuration.nix
+            sops-nix.darwinModules.sops
+            { sops.age.sshKeyPaths = [ "/var/root/.sops-keys/id_ed25519" ]; }
+            home-manager.darwinModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                intelPkgs = pkgsNonfree-darwin-x64;
+              };
+            }
+          ];
+          pkgs = nixpkgsFor."aarch64-darwin";
+          inputs = {
+            inherit self;
+            intelPkgs = pkgsNonfree-darwin-x64;
+          };
+        };
+        nihilanth = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [
+            ./hosts/nihilanth/darwin-configuration.nix
             sops-nix.darwinModules.sops
             { sops.age.sshKeyPaths = [ "/var/root/.sops-keys/id_ed25519" ]; }
             home-manager.darwinModules.home-manager
