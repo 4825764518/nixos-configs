@@ -1,5 +1,6 @@
 keys:
   - &interloper age1nhsjw9ju9ezqpvre23exxjmhhzhz688t682dy2s28z7avsevr4dqhjpqfd
+  - &nihilanth age19l07sqz7zusw26sq7emhpdft5pmuw7ee5p66gg6ydj87s334herqfy6q63
   - &stormveil age1pen3t2pauvtvpnce7k8pee68mhwyk8qawrsfktje88aq3zjrm4rq0kns6m
   - &server_ainsel age1r4mlnu2xcppdta73z77zpa3vwpgtdwueqcqf44mv5dqcsy6auvks2jw80r
   - &server_firelink age1zgx808cx5wtq50uk9xqwn2sse5muvg0snat5ywact0zcrvzr758q7xq7lk
@@ -13,6 +14,7 @@ creation_rules:
     key_groups:
     - age:
       - *interloper
+      - *nihilanth
       - *stormveil
       - *server_ainsel
       - *server_firelink
@@ -25,30 +27,35 @@ creation_rules:
     key_groups:
     - age:
       - *interloper
+      - *nihilanth
       - *stormveil
       - *server_ainsel
   - path_regex: secrets/firelink/[^/]+\.yaml$
     key_groups:
     - age:
       - *interloper
+      - *nihilanth
       - *stormveil
       - *server_firelink
   - path_regex: secrets/leyndell/[^/]+\.yaml$
     key_groups:
     - age:
       - *interloper
+      - *nihilanth
       - *stormveil
       - *server_leyndell
   - path_regex: secrets/morne/[^/]+\.yaml$
     key_groups:
     - age:
       - *interloper
+      - *nihilanth
       - *stormveil
       - *server_morne
   - path_regex: secrets/stormveil/[^/]+\.yaml$
     key_groups:
     - age:
       - *interloper
+      - *nihilanth
       - *stormveil
       - *server_stormveil
     
