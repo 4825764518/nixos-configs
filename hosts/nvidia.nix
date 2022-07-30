@@ -30,10 +30,7 @@
 
     Section "Monitor"
       Identifier     "Monitor0"
-      VendorName     "Unknown"
-      ModelName      "Acer VG270U P"
-      HorizSync       222.0 - 222.0
-      VertRefresh     40.0 - 144.0
+      ModelName      "Microstep MSI MAG281URF"
     EndSection
 
     Section "Screen"
@@ -43,11 +40,12 @@
       DefaultDepth    24
       Option         "Stereo" "0"
       Option         "nvidiaXineramaInfoOrder" "DFP-1"
+      Option         "metamodes" "3840x2160_144 +0+0"
       Option         "SLI" "Off"
       Option         "MultiGPU" "Off"
       Option         "BaseMosaic" "off"
       SubSection     "Display"
-          Depth       24
+        Depth       24
       EndSubSection
     EndSection
 
