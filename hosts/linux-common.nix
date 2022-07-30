@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ../apps/nix.nix ];
+  imports = [ ../apps/nix-linux.nix ];
 
   boot.kernelParams =
     [ "zswap.enabled=1" "zswap.compressor=lz4" "zswap.zpool=zbud" ];

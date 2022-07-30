@@ -1,11 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ../darwin-common.nix
-    ../../apps/homebrew.nix
-    ../../apps/nix.nix
-  ];
+  imports =
+    [ ../darwin-common.nix ../../apps/homebrew.nix ../../apps/nix-darwin.nix ];
 
   # Create /etc/bashrc that loads the nix-darwin environment.
   programs.zsh.enable = true; # default shell on catalina
